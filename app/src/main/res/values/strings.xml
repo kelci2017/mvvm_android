@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FamilyNote</string>
+    <string name="app_name">FamilyNoteApp</string>
     <string name="example_email">example@gmail.com</string>
     <string name="noteboard_name">Noteboard</string>
     <string name="notepad_name">Notepad</string>
