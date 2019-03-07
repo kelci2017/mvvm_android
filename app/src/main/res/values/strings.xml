@@ -5,4 +5,13 @@
     <string name="notepad_name">Notepad</string>
     <string name="settings_name">Settings</string>
     <string name="logout_name">Logout</string>
+    <string name="settings_sender">Check notes from</string>
+    <string name="settings_receiver">Check notes to</string>
+    <string name="settings_date">Check notes date</string>
+    <string name="settings_add_member">Add family members</string>
+    <string name="settings_logout">Logout</string>
+    <string name="settings_default">All</string>
+    <string name="settings_default_date">Today</string>
+    <string name="settings_version_title">Version</string>
+    <string name="settings_version">1.0</string>
 </resources>

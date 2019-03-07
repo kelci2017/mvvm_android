@@ -2,32 +2,48 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".view.MainActivity">
 
     <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/darker_gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:tabTextAppearance="@style/CustomTextAppearanceTab">
 
         <android.support.design.widget.TabItem
+            android:id="@+id/noteboard_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/noteboard_name"
-            android:icon="@drawable/ic_noteboard"/>
+            android:icon="@drawable/ic_noteboard"
+            android:text="@string/noteboard_name" />
 
         <android.support.design.widget.TabItem
+            android:id="@+id/notepad_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/notepad_name"
-            android:icon="@drawable/ic_notepad"/>
+            android:icon="@drawable/ic_notepad"
+            android:text="@string/notepad_name" />
 
         <android.support.design.widget.TabItem
+            android:id="@+id/settings_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/settings_name"
-            android:icon="@drawable/ic_settings"/>
+            android:icon="@drawable/ic_settings"
+            android:text="@string/settings_name" />
     </android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tab_layout"
+        app:layout_constraintRight_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 </android.support.constraint.ConstraintLayout>
