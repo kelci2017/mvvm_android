@@ -1,21 +1,25 @@
 package com.kelci.familynote.view
 
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Filter
-import android.support.test.espresso.web.model.Atoms.getTitle
 import android.widget.TextView
 import com.kelci.familynote.R.id.tvSectionTitle
 import android.view.LayoutInflater
+import android.widget.CalendarView
 import com.kelci.familynote.R
 import com.kelci.familynote.R.id.parent
+import java.time.YearMonth
+import java.util.*
 
 
 class SettingsAdapter(context : Context, items : ArrayList<Item>) : BaseAdapter() {
     private var context : Context = context
     private var items : ArrayList<Item> = items
+    private var originalItems : ArrayList<Item>? = null
 
     override fun getCount(): Int {
         return items.count()
@@ -27,26 +31,69 @@ class SettingsAdapter(context : Context, items : ArrayList<Item>) : BaseAdapter(
 
     override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        if (items.get(p0).isSection()) {
+        //val convertview : View?
+        var convertview = p1
+        if (items[p0].isSection()) {
             // if section header
-            p1 = inflater.inflate(R.layout.settings_section, p2, false)
-            val tvSectionTitle = p1.findViewById(R.id.tvSectionTitle) as TextView
+            convertview = inflater.inflate(R.layout.settings_section, p2, false)
+            //p1 = inflater.inflate(R.layout.settings_section, p2, false)
+            val tvSectionTitle = convertview.findViewById(R.id.tvSectionTitle) as TextView
             tvSectionTitle.text = items[p0].getTitle()
             //tvSectionTitle.setText((items.get(p0) as SettingsSection).getTitle())
         } else {
             // if item
-            p1 = inflater.inflate(R.layout.settings_item, p2, false)
-            val tvItemTitle = p1.findViewById(R.id.title) as TextView
-            val tvItemSubTitle = p1.findViewById(R.id.title) as TextView
+            convertview = inflater.inflate(R.layout.settings_item, p2, false)
+            //p1 = inflater.inflate(R.layout.settings_item, p2, false)
+            val tvItemTitle = convertview.findViewById(R.id.title) as TextView
+            val tvItemSubTitle = convertview.findViewById(R.id.subtitle) as TextView
+            val tvCalendarView = convertview.findViewById(R.id.calendarView) as CalendarView
             tvItemTitle.text = items[p0].getTitle()
             tvItemSubTitle.text = items[p0].getSubtitle()
+
+            var year = Calendar.YEAR
+            var month = Calendar.MONTH
+            //var date = Calendar.DAY_OF_MONTH
+            //Log.i("SettingsAdapter", "the current day of month is: " + date.toString())
+            var day =1
+
+
+            val calendarF = Calendar.getInstance()
+            val calendarL = Calendar.getInstance()
+            val calendarC = Calendar.getInstance()
+
+            var days = calendarF.getActualMaximum(Calendar.DAY_OF_MONTH)
+            var date = calendarF.get(Calendar.DAY_OF_MONTH)
+            calendarF.set(year, month, day) //want to show full month of February 2010
+            calendarL.set(year, month, days)
+            calendarC.set(year, month, date)
+
+            tvCalendarView.minDate = calendarF.timeInMillis
+            tvCalendarView.maxDate = calendarL.timeInMillis
+            tvCalendarView.date = calendarC.timeInMillis
+
+            val vg = tvCalendarView.getChildAt(0) as ViewGroup
+
+            val subView = vg.getChildAt(1)
+
+            if (subView is TextView) {
+                Log.i("SettingsAdapter", "the first subview is textview")
+                subView.visibility = View.GONE
+            }
+
+
+            if (tvItemTitle.text != convertview.resources.getString(R.string.settings_date)) {
+                tvCalendarView.visibility = View.GONE
+            }
         }
 
-        return p1
+        //p1 = convertview
+
+        return convertview
     }
 
     override fun getItemId(p0: Int): Long {
-        return p0 as Long
+
+        return p0.toLong()
     }
 
     fun getFilter() : Filter {
@@ -54,7 +101,35 @@ class SettingsAdapter(context : Context, items : ArrayList<Item>) : BaseAdapter(
         filter = object : Filter() {
             override fun performFiltering(constraint: CharSequence): Filter.FilterResults? {
 
-                return null
+                val results = FilterResults()
+                val filteredArrayList = ArrayList<Item>()
+                var constraints = constraint
+
+
+                if (originalItems == null || originalItems?.count() === 0) {
+                    originalItems = ArrayList<Item>(items)
+                }
+
+                /*
+                     * if constraint is null then return original value
+                     * else return filtered value
+                     */
+                if (constraints == null && constraints.length === 0) {
+                    results.count = originalItems!!.count()
+                    results.values = originalItems
+                } else {
+                    constraints = constraints.toString().toLowerCase(Locale.ENGLISH)
+                    for (i in 0 until originalItems!!.count()) {
+                        val title = originalItems!![i].getTitle().toLowerCase(Locale.ENGLISH)
+                        if (title.startsWith(constraints.toString())) {
+                            filteredArrayList.add(originalItems!![i])
+                        }
+                    }
+                    results.count = filteredArrayList.count()
+                    results.values = filteredArrayList
+                }
+
+                return results
             }
 
             override fun publishResults(constraint: CharSequence, results: Filter.FilterResults) {

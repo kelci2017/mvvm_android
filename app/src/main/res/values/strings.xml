@@ -14,4 +14,5 @@
     <string name="settings_default_date">Today</string>
     <string name="settings_version_title">Version</string>
     <string name="settings_version">1.0</string>
+    <string name="search_title">Search</string>
 </resources>

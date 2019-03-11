@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
 import com.kelci.familynote.R
-import android.content.ClipData.Item
 
 
 
@@ -16,6 +15,7 @@ class SettingsFragment : Fragment() {
 
     private var rootView : View? = null
     private var listView : ListView? = null
+    private var settingsAdapter : SettingsAdapter? = null
 
     companion object {
 
@@ -44,6 +44,8 @@ class SettingsFragment : Fragment() {
         settingsList.add(SettingsSection("About") as Item)
         // State Name
         settingsList.add(SettingsItem(getString(R.string.settings_version_title), getString(R.string.settings_version)) as Item)
+        settingsAdapter = SettingsAdapter(this.context!!, settingsList)
+        listView?.adapter = settingsAdapter
 
         return rootView
     }
