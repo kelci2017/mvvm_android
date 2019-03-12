@@ -20,6 +20,10 @@ class SettingsAdapter(context : Context, items : ArrayList<Item>) : BaseAdapter(
     private var context : Context = context
     private var items : ArrayList<Item> = items
     private var originalItems : ArrayList<Item>? = null
+    private var itemTitle : TextView? = null
+    private var itemSubtitle : TextView? = null
+    private var calendarView : CalendarView? = null
+    private var calendarViewDate : CalendarView? = null
 
     override fun getCount(): Int {
         return items.count()
@@ -44,12 +48,19 @@ class SettingsAdapter(context : Context, items : ArrayList<Item>) : BaseAdapter(
             // if item
             convertview = inflater.inflate(R.layout.settings_item, p2, false)
             //p1 = inflater.inflate(R.layout.settings_item, p2, false)
-            val tvItemTitle = convertview.findViewById(R.id.title) as TextView
-            val tvItemSubTitle = convertview.findViewById(R.id.subtitle) as TextView
-            val tvCalendarView = convertview.findViewById(R.id.calendarView) as CalendarView
-            tvItemTitle.text = items[p0].getTitle()
-            tvItemSubTitle.text = items[p0].getSubtitle()
+            itemTitle = convertview.findViewById(R.id.title) as TextView
+            itemSubtitle = convertview.findViewById(R.id.subtitle) as TextView
+            calendarView = convertview.findViewById(R.id.calendarView) as CalendarView
+            itemTitle?.text = items[p0].getTitle()
+            itemSubtitle?.text = items[p0].getSubtitle()
 
+            if (itemSubtitle?.text == "") {
+                itemSubtitle?.visibility = View.GONE
+            }
+
+            if (p0 == 3) {
+                calendarViewDate = calendarView
+            }
             var year = Calendar.YEAR
             var month = Calendar.MONTH
             //var date = Calendar.DAY_OF_MONTH
@@ -67,11 +78,11 @@ class SettingsAdapter(context : Context, items : ArrayList<Item>) : BaseAdapter(
             calendarL.set(year, month, days)
             calendarC.set(year, month, date)
 
-            tvCalendarView.minDate = calendarF.timeInMillis
-            tvCalendarView.maxDate = calendarL.timeInMillis
-            tvCalendarView.date = calendarC.timeInMillis
+            calendarView?.minDate = calendarF.timeInMillis
+            calendarView?.maxDate = calendarL.timeInMillis
+            calendarView?.date = calendarC.timeInMillis
 
-            val vg = tvCalendarView.getChildAt(0) as ViewGroup
+            val vg = calendarView?.getChildAt(0) as ViewGroup
 
             val subView = vg.getChildAt(1)
 
@@ -81,8 +92,8 @@ class SettingsAdapter(context : Context, items : ArrayList<Item>) : BaseAdapter(
             }
 
 
-            if (tvItemTitle.text != convertview.resources.getString(R.string.settings_date)) {
-                tvCalendarView.visibility = View.GONE
+            if (itemTitle?.text != convertview.resources.getString(R.string.settings_date)) {
+                calendarView?.visibility = View.GONE
             }
         }
 
@@ -96,6 +107,15 @@ class SettingsAdapter(context : Context, items : ArrayList<Item>) : BaseAdapter(
         return p0.toLong()
     }
 
+    fun expandClapseDate() {
+        Log.i("settingsadapter", "the calendarview visibility is: " + (calendarView?.visibility == View.GONE).toString())
+        if (calendarViewDate?.visibility == View.GONE) {
+            calendarViewDate?.visibility = View.VISIBLE
+        } else {
+            calendarViewDate?.visibility = View.GONE
+        }
+        //notifyDataSetChanged()
+    }
     fun getFilter() : Filter {
         var filter : Filter?
         filter = object : Filter() {

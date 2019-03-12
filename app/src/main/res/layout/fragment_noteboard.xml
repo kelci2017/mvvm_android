@@ -37,7 +37,7 @@
             app:layout_constraintTop_toBottomOf="@id/pin_image">
 
             <RadioButton
-                android:id="@+id/radioButton2"
+                android:id="@+id/global_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
@@ -45,12 +45,13 @@
                 android:text="Global search" />
 
             <RadioButton
-                android:id="@+id/radioButton"
+                android:id="@+id/local_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_weight="0.1"
-                android:text="Local search" />
+                android:text="Local search"
+                />
         </RadioGroup>
 
         <LinearLayout

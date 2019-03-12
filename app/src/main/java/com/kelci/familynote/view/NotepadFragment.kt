@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.kelci.familynote.R
 
-class NotepadFragment : Fragment() {
+class NotepadFragment : BaseFragment() {
 
     companion object {
 

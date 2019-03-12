@@ -12,7 +12,7 @@ class SettingsSection(title : String) : Item {
         return title
     }
     override fun isSection() : Boolean {
-        return false
+        return true
     }
 
     override fun getSubtitle(): String {

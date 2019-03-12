@@ -3,7 +3,7 @@
     <string name="example_email">example@gmail.com</string>
     <string name="noteboard_name">Noteboard</string>
     <string name="notepad_name">Notepad</string>
-    <string name="settings_name">Settings</string>
+    <string name="settings_name">SETTINGS</string>
     <string name="logout_name">Logout</string>
     <string name="settings_sender">Check notes from</string>
     <string name="settings_receiver">Check notes to</string>
@@ -15,4 +15,5 @@
     <string name="settings_version_title">Version</string>
     <string name="settings_version">1.0</string>
     <string name="search_title">Search</string>
+    <string name="about_name">ABOUT</string>
 </resources>
