@@ -57,7 +57,7 @@
                     android:id="@+id/sender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="-50dp"
+                    android:layout_marginLeft="-30dp"
                     android:layout_weight="1"
                     android:text="kelci"
                     android:textStyle="bold" />
@@ -73,14 +73,14 @@
                     android:id="@+id/receiver"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="-70dp"
+                    android:layout_marginLeft="-50dp"
                     android:layout_weight="1"
                     android:text="alisa"
                     android:textStyle="bold" />
             </LinearLayout>
 
             <TextView
-                android:id="@+id/textbody"
+                android:id="@+id/notebody"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
@@ -91,7 +91,7 @@
                 app:layout_constraintTop_toBottomOf="@id/title_layout" />
 
             <TextView
-                android:id="@+id/textdate"
+                android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
@@ -101,7 +101,7 @@
                 android:textStyle="italic|bold"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textbody" />
+                app:layout_constraintTop_toBottomOf="@id/notebody" />
 
         </LinearLayout>
     </LinearLayout>

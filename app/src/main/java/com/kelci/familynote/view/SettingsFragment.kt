@@ -3,6 +3,7 @@ package com.kelci.familynote.view
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
+import android.util.Log
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +11,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ListView
 import com.kelci.familynote.R
-
+import kotlinx.android.synthetic.main.settings_item.view.*
 
 
 class SettingsFragment : BaseFragment() {
@@ -49,11 +50,17 @@ class SettingsFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
+        listView?.isEnabled = true
         setListOnClickListener()
     }
 
     private fun setListOnClickListener() {
+
         listView?.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+
+            val calendarView = view.calendarView
+
+           settingsAdapter?.selectDate(calendarView)
 
             val selectedItem = parent.getItemAtPosition(position) as Item
                 when(selectedItem.getTitle()) {
@@ -68,16 +75,30 @@ class SettingsFragment : BaseFragment() {
                     }
                     getString(R.string.settings_date) -> {
                         //check notes date
-                      settingsAdapter?.expandClapseDate()
+                        Log.i("SettingsFragment", "The settinglist count is: " + settingsList.count().toString())
+                        if (settingsList.count() > 8) {
+                            settingsList.removeAt(4)
+                        } else {
+                            settingsList.add(4,SettingsItem("", "")as Item)
+                        }
+                        settingsAdapter?.notifyDataSetChanged()
+                      //settingsAdapter?.expandClapseDate()
                     }
                     getString(R.string.settings_add_member) -> {
                         //add family members
+                        listView?.isEnabled = false
                         showAddFamilyMemberFragment()
                     }
                     getString(R.string.settings_logout) -> {
                         //logout
 
-                    }else -> {
+                    }
+//                    "" -> {
+//                        //the added calendar view
+//                        settingsAdapter?.selectDate()
+//                        settingsAdapter?.notifyDataSetChanged()
+                //}
+            else -> {
 
                 }
             }
@@ -103,11 +124,6 @@ class SettingsFragment : BaseFragment() {
 
         fragmentTransaction.add(R.id.settings_layout, addFamilyMemberFragment, "addFamilyMemberFragment")
         fragmentTransaction.addToBackStack(null)
-//        for (fragment in fragmentManager.fragments) {
-//            if (fragment is SettingsFragment ) {
-//                fragmentTransaction.hide(fragment)
-//            }
-//        }
         fragmentTransaction.commit()
 
     }

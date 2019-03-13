@@ -4,15 +4,9 @@ import android.content.Context
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.Filter
-import android.widget.TextView
-import com.kelci.familynote.R.id.tvSectionTitle
 import android.view.LayoutInflater
-import android.widget.CalendarView
+import android.widget.*
 import com.kelci.familynote.R
-import com.kelci.familynote.R.id.parent
-import java.time.YearMonth
 import java.util.*
 
 
@@ -23,7 +17,9 @@ class SettingsAdapter(context : Context, items : ArrayList<Item>) : BaseAdapter(
     private var itemTitle : TextView? = null
     private var itemSubtitle : TextView? = null
     private var calendarView : CalendarView? = null
-    private var calendarViewDate : CalendarView? = null
+    private var title_layout : LinearLayout? = null
+    private var itemLayout : LinearLayout? = null
+    private var selectedDate : String = "Today"
 
     override fun getCount(): Int {
         return items.count()
@@ -53,110 +49,61 @@ class SettingsAdapter(context : Context, items : ArrayList<Item>) : BaseAdapter(
             calendarView = convertview.findViewById(R.id.calendarView) as CalendarView
             itemTitle?.text = items[p0].getTitle()
             itemSubtitle?.text = items[p0].getSubtitle()
+            itemLayout = convertview.findViewById(R.id.item_layout) as LinearLayout
 
             if (itemSubtitle?.text == "") {
                 itemSubtitle?.visibility = View.GONE
             }
 
-            if (p0 == 3) {
-                calendarViewDate = calendarView
-            }
-            var year = Calendar.YEAR
-            var month = Calendar.MONTH
-            //var date = Calendar.DAY_OF_MONTH
-            //Log.i("SettingsAdapter", "the current day of month is: " + date.toString())
-            var day =1
+            setCalendarViewStyle(calendarView)
 
-
-            val calendarF = Calendar.getInstance()
-            val calendarL = Calendar.getInstance()
-            val calendarC = Calendar.getInstance()
-
-            var days = calendarF.getActualMaximum(Calendar.DAY_OF_MONTH)
-            var date = calendarF.get(Calendar.DAY_OF_MONTH)
-            calendarF.set(year, month, day) //want to show full month of February 2010
-            calendarL.set(year, month, days)
-            calendarC.set(year, month, date)
-
-            calendarView?.minDate = calendarF.timeInMillis
-            calendarView?.maxDate = calendarL.timeInMillis
-            calendarView?.date = calendarC.timeInMillis
-
-            val vg = calendarView?.getChildAt(0) as ViewGroup
-
-            val subView = vg.getChildAt(1)
-
-            if (subView is TextView) {
-                Log.i("SettingsAdapter", "the first subview is textview")
-                subView.visibility = View.GONE
-            }
-
-
-            if (itemTitle?.text != convertview.resources.getString(R.string.settings_date)) {
+            if (itemTitle?.text != "") {
                 calendarView?.visibility = View.GONE
             }
-        }
 
-        //p1 = convertview
+            if (p0 == 3) {
+                itemSubtitle?.text = items[p0].getSubtitle()
+            }
+//            if (p0 != 4) {
+//                calendarView?.isEnabled = false
+//            }
+            //selectDate()
+
+        }
 
         return convertview
     }
 
+    fun selectDate(calendarView: CalendarView?) {
+        calendarView?.setOnDateChangeListener { view, year, month, dayOfMonth ->
+            // Note that months are indexed from 0. So, 0 means January, 1 means february, 2 means march etc.
+            selectedDate = "" + year + "-" + (month + 1) + "-" + dayOfMonth
+        }
+    }
+    private fun setCalendarViewStyle(calendarView: CalendarView?) {
+        var year = Calendar.YEAR
+        var month = Calendar.MONTH
+        //var date = Calendar.DAY_OF_MONTH
+        //Log.i("SettingsAdapter", "the current day of month is: " + date.toString())
+        var day =1
+
+
+        val calendarF = Calendar.getInstance()
+        val calendarL = Calendar.getInstance()
+        val calendarC = Calendar.getInstance()
+
+        var days = calendarF.getActualMaximum(Calendar.DAY_OF_MONTH)
+        var date = calendarF.get(Calendar.DAY_OF_MONTH)
+        calendarF.set(year, month, day) //want to show full month of February 2010
+        calendarL.set(year, month, days)
+        calendarC.set(year, month, date)
+
+        calendarView?.minDate = calendarF.timeInMillis
+        calendarView?.maxDate = calendarL.timeInMillis
+        calendarView?.date = calendarC.timeInMillis
+    }
     override fun getItemId(p0: Int): Long {
 
         return p0.toLong()
-    }
-
-    fun expandClapseDate() {
-        Log.i("settingsadapter", "the calendarview visibility is: " + (calendarView?.visibility == View.GONE).toString())
-        if (calendarViewDate?.visibility == View.GONE) {
-            calendarViewDate?.visibility = View.VISIBLE
-        } else {
-            calendarViewDate?.visibility = View.GONE
-        }
-        //notifyDataSetChanged()
-    }
-    fun getFilter() : Filter {
-        var filter : Filter?
-        filter = object : Filter() {
-            override fun performFiltering(constraint: CharSequence): Filter.FilterResults? {
-
-                val results = FilterResults()
-                val filteredArrayList = ArrayList<Item>()
-                var constraints = constraint
-
-
-                if (originalItems == null || originalItems?.count() === 0) {
-                    originalItems = ArrayList<Item>(items)
-                }
-
-                /*
-                     * if constraint is null then return original value
-                     * else return filtered value
-                     */
-                if (constraints == null && constraints.length === 0) {
-                    results.count = originalItems!!.count()
-                    results.values = originalItems
-                } else {
-                    constraints = constraints.toString().toLowerCase(Locale.ENGLISH)
-                    for (i in 0 until originalItems!!.count()) {
-                        val title = originalItems!![i].getTitle().toLowerCase(Locale.ENGLISH)
-                        if (title.startsWith(constraints.toString())) {
-                            filteredArrayList.add(originalItems!![i])
-                        }
-                    }
-                    results.count = filteredArrayList.count()
-                    results.values = filteredArrayList
-                }
-
-                return results
-            }
-
-            override fun publishResults(constraint: CharSequence, results: Filter.FilterResults) {
-                items = results.values as ArrayList<Item>
-                notifyDataSetChanged()
-            }
-        }
-        return filter
     }
 }
