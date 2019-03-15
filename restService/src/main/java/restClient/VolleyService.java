@@ -35,6 +35,8 @@ public abstract class VolleyService {
     private int retry_times = 0;
     private static RequestQueue requestQueue;
 
+    Gson gson = new Gson();
+
     private RestResponse restResponse = new RestResponse(VolleyService.this);
 
     public abstract RestResult parseResult(String result);
@@ -123,7 +125,7 @@ public abstract class VolleyService {
         return false;
     }
     public <T> T fromJson(String result, Class<T> classType) throws JsonSyntaxException {
-        Gson gson = new Gson();
+
         try {
             return gson.fromJson(result, classType);
         } catch (JsonSyntaxException e){
@@ -133,6 +135,10 @@ public abstract class VolleyService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    protected final String toJson(Object src) {
+        return gson.toJson(src);
     }
     protected void clearToken(){
         JWT_TOKEN = null;

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- init server url, multiple choice based on situation. -->
+    <string name = "server_url">http://192.168.1.177:4000/</string>
+
+    <string name="login">%1$sauth/sign_in</string>
+    <string name="logout">%1$auth/sign_out?sessionid=%2$</string>
+    <string name="register">%1$sauth/register</string>
+    <string name="add_family_member">%1$auth/familyMembers?sessionid=%2$</string>
+    <string name="submit_note">%1$notes/create?sessionid=%2$</string>
+    <string name="note_search">%1$notes/search?from=%2$&amp;to=%3$&amp;date=%4$&amp;sessionid=%5$</string>
+
+</resources>
