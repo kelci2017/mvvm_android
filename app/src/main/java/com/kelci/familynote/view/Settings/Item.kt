@@ -1,4 +1,4 @@
-package com.kelci.familynote.view
+package com.kelci.familynote.view.Settings
 
 interface Item {
 

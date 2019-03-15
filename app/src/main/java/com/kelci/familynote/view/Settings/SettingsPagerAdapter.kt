@@ -1,8 +1,11 @@
-package com.kelci.familynote.view
+package com.kelci.familynote.view.Settings
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
+import com.kelci.familynote.view.Noteboard.NoteboardFragment
+import com.kelci.familynote.view.Notepad.NotepadFragment
+import com.kelci.familynote.view.Settings.SettingsFragment
 
 class SettingsPagerAdapter(fm : FragmentManager, numOfTabs : Int) : FragmentStatePagerAdapter(fm) {
 

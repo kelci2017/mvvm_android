@@ -1,8 +1,8 @@
-package com.kelci.familynote.view
+package com.kelci.familynote.view.Initial
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import com.kelci.familynote.R
+import com.kelci.familynote.view.Base.RootActivity
 
 
 class LoginActivity : RootActivity {

@@ -1,4 +1,4 @@
-package com.kelci.familynote.view
+package com.kelci.familynote.view.Base
 
 import android.os.Bundle
 import android.os.PersistableBundle

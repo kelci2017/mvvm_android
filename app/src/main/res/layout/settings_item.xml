@@ -51,5 +51,15 @@
             android:layout_marginRight="-20dp"
             android:layout_marginTop="-100dp"
             android:dateTextAppearance="@style/CalenderViewDateCustomText" />
+
     </LinearLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="#e6e6e6"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/item_layout" />
 </android.support.constraint.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.kelci.familynote.view
+package com.kelci.familynote.view.Base
 
 import android.support.v4.app.Fragment
 import android.content.Context
@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlin.reflect.KClass
 
 open class BaseFragment : Fragment() {
 

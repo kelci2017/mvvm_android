@@ -1,4 +1,4 @@
-package com.kelci.familynote.view
+package com.kelci.familynote.view.Settings
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.kelci.familynote.R
-import kotlinx.android.synthetic.main.note_list_item.view.*
+import com.kelci.familynote.view.Noteboard.NoteItem
 import java.util.*
 
 class NoteAdapter(context : Context, items : ArrayList<NoteItem>) : BaseAdapter() {

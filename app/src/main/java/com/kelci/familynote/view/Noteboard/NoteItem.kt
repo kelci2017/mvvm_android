@@ -1,4 +1,4 @@
-package com.kelci.familynote.view
+package com.kelci.familynote.view.Noteboard
 
 class NoteItem(from : String, to : String, date : String, note : String) {
 

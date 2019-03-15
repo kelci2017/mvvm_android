@@ -1,8 +1,7 @@
-package com.kelci.familynote.view
+package com.kelci.familynote.view.Settings
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
 import android.util.Log
 
 import android.view.LayoutInflater
@@ -11,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ListView
 import com.kelci.familynote.R
+import com.kelci.familynote.view.Base.BaseFragment
 import kotlinx.android.synthetic.main.settings_item.view.*
 
 
@@ -32,7 +32,7 @@ class SettingsFragment : BaseFragment() {
         // Header
         settingsList.add(SettingsSection("Settings") as Item)
         // Items
-        settingsList.add(SettingsItem(getString(R.string.settings_sender), getString(R.string.settings_default))as Item)
+        settingsList.add(SettingsItem(getString(R.string.settings_sender), getString(R.string.settings_default)) as Item)
         settingsList.add(SettingsItem(getString(R.string.settings_receiver), getString(R.string.settings_default)) as Item)
         settingsList.add(SettingsItem(getString(R.string.settings_date), getString(R.string.settings_default_date)) as Item)
         settingsList.add(SettingsItem(getString(R.string.settings_add_member), "") as Item)
@@ -45,6 +45,7 @@ class SettingsFragment : BaseFragment() {
         settingsAdapter = SettingsAdapter(activity!!.applicationContext, settingsList)
         listView?.adapter = settingsAdapter
         //setListOnClickListener()
+        listView?.divider = null
         return rootView
     }
 
@@ -60,7 +61,7 @@ class SettingsFragment : BaseFragment() {
 
             val calendarView = view.calendarView
 
-           settingsAdapter?.selectDate(calendarView)
+           //settingsAdapter?.selectDate(calendarView)
 
             val selectedItem = parent.getItemAtPosition(position) as Item
                 when(selectedItem.getTitle()) {
@@ -78,8 +79,10 @@ class SettingsFragment : BaseFragment() {
                         Log.i("SettingsFragment", "The settinglist count is: " + settingsList.count().toString())
                         if (settingsList.count() > 8) {
                             settingsList.removeAt(4)
+                            //settingsAdapter?.showDivider()
                         } else {
-                            settingsList.add(4,SettingsItem("", "")as Item)
+                            settingsList.add(4, SettingsItem("", "") as Item)
+                            //settingsAdapter?.hideDivider()
                         }
                         settingsAdapter?.notifyDataSetChanged()
                       //settingsAdapter?.expandClapseDate()

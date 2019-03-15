@@ -1,4 +1,6 @@
-package com.kelci.familynote.view
+package com.kelci.familynote.view.Settings
+
+import com.kelci.familynote.view.Settings.Item
 
 class SettingsSection(title : String) : Item {
 

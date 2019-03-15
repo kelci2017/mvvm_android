@@ -1,16 +1,16 @@
-package com.kelci.familynote.view
+package com.kelci.familynote.view.Noteboard
 
 import android.app.SearchManager
 import android.content.Context
-import android.support.v4.app.Fragment
 import android.os.Bundle
-import android.provider.MediaStore
 import android.support.v7.widget.SearchView
 import android.text.TextUtils
 import android.util.Log
 import android.view.*
 import android.widget.*
 import com.kelci.familynote.R
+import com.kelci.familynote.view.Base.BaseFragment
+import com.kelci.familynote.view.Settings.NoteAdapter
 
 class NoteboardFragment : BaseFragment() {
 

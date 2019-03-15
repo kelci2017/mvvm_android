@@ -1,4 +1,4 @@
-package com.kelci.familynote.view
+package com.kelci.familynote.view.Settings
 
 import android.support.v4.app.Fragment
 import android.os.Bundle
@@ -6,11 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.BaseAdapter
 import android.widget.ListView
 import com.kelci.familynote.R
 import android.widget.ArrayAdapter
-
+import com.kelci.familynote.view.Base.BaseFragment
 
 
 class FamilyMemberFragment: BaseFragment() {

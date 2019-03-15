@@ -1,13 +1,11 @@
-package com.kelci.familynote.view
+package com.kelci.familynote.view.Settings
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import com.fasterxml.jackson.databind.ser.Serializers
 import com.kelci.familynote.R
+import com.kelci.familynote.view.Base.BaseFragment
 
 class AddFamilyMemberFragment : BaseFragment() {
 
