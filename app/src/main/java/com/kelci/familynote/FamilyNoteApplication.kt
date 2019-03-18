@@ -28,12 +28,6 @@ class FamilyNoteApplication : Application() {
         appPreferences?.put(key, value)
     }
 
-    /**
-     * Added by Jason on 05/07/2017. Get value by keyword from cache library.
-     * Will return null if not exist.
-     * @param key
-     * @return
-     */
     fun getKeyValue(key: String): String? {
         return appPreferences?.getString(key, null)
     }

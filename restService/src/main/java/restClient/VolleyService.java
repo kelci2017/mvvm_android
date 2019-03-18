@@ -98,7 +98,7 @@ public abstract class VolleyService {
         return "application/json; charset=utf-8";
     }
 
-    protected Map<String, String> getHeaders() throws AuthFailureError {
+    public Map<String, String> getHeaders() throws AuthFailureError {
         if (!needAuthorization()) return null;
         final Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", TOKEN_SCHEME + JWT_TOKEN);

@@ -38,7 +38,7 @@ public class RestGetToken extends VolleyService {
        return "http://192.168.1.177:8080/auth/getToken";
     }
     @Override
-    protected Map<String, String> getHeaders() throws AuthFailureError {
+    public Map<String, String> getHeaders() throws AuthFailureError {
         final Map<String, String> headers = new HashMap<>();
 
         byte[] privateKeyBytes = null;

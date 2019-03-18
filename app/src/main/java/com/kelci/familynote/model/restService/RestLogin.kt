@@ -39,4 +39,8 @@ class RestLogin : VolleyService() {
 
         return toJson(postBody)
     }
+
+    override fun isUseCache(): Boolean {
+        return super.isUseCache()
+    }
 }
