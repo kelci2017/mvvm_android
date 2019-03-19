@@ -2,6 +2,8 @@ package restClientService;
 
 import android.util.Log;
 
+import org.json.JSONObject;
+
 import restClient.RestResult;
 import restClient.VolleyService;
 
@@ -11,7 +13,7 @@ import restClient.VolleyService;
 
 public class RestGetTasks extends VolleyService {
      @Override
-    public RestResult parseResult(String result){
+    public RestResult parseResult(JSONObject result){
 //        Log.i(getClass().getName(),"aaaaaaaaaaaaaa" + result);
 //        Task task = fromJson(result, Task.class);
 //        if (task.getResultCode() == 12) return new RestResult(task.getResultCode(),task.getResultDesc());

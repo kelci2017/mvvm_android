@@ -1,10 +1,10 @@
 package com.kelci.familynote.model.dataStructure
 
-class User(sessionid : String, token : String, userID : String) {
+class User(sessionid : String?, token : String?, userID : String?) {
 
-    private var sessionid : String = ""
-    private var token : String = ""
-    private var userID : String = ""
+    private var sessionid : String? = null
+    private var token : String? = null
+    private var userID : String? = null
 
     init {
         this.sessionid = sessionid
@@ -12,15 +12,15 @@ class User(sessionid : String, token : String, userID : String) {
         this.userID = userID
     }
 
-    fun getSessionid() : String {
+    fun getSessionid() : String? {
         return sessionid
     }
 
-    fun getUserID() : String {
+    fun getUserID() : String? {
         return userID
     }
 
-    fun getToken() : String {
+    fun getToken() : String? {
         return token
     }
 }

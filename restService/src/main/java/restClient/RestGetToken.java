@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,9 +21,9 @@ public class RestGetToken extends VolleyService {
     private String auth_key = "8DEEF4EE1B83715848D08FC5D5A5F8C284BEC6567085A6E315832005994AF049";
 
     @Override
-    public RestResult<TokenObject> parseResult(String result){
+    public RestResult<TokenObject> parseResult(JSONObject result){
         try{
-            TokenObject tokenObject = fromJson(result, TokenObject.class);
+            TokenObject tokenObject = fromJson(result.toString(), TokenObject.class);
             if (tokenObject.isSuccess()){
                 VolleyService.JWT_TOKEN = tokenObject.getToken();
                 Log.i(getClass().getName(),"Token is: " + VolleyService.JWT_TOKEN);

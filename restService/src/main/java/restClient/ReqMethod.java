@@ -26,7 +26,7 @@ public class ReqMethod {
     private static int TIMEOUT = 20000;
 
     protected static void get(final VolleyService volleyService, String url, RestResponse restResponse) {
-        StringRequest stringRequest = new StringRequest(url, restResponse, restResponse) {
+        JsonStringRequest stringRequest = new JsonStringRequest(Request.Method.GET, url, "", restResponse, restResponse) {
             @Override
             public String getBodyContentType() {
                 String contentType = volleyService.getBodyContentType();

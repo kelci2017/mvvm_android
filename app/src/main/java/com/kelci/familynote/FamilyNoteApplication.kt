@@ -3,6 +3,7 @@ package com.kelci.familynote
 import android.app.Application
 import android.content.Context
 import net.grandcentrix.tray.AppPreferences
+import restClient.VolleyService
 
 class FamilyNoteApplication : Application() {
 
@@ -20,6 +21,8 @@ class FamilyNoteApplication : Application() {
 
         //FamilyNoteApplication.context = applicationContext
         familyNoteApplication = this
+        appPreferences = AppPreferences(applicationContext)
+        VolleyService.setRequestQueue(applicationContext)
     }
 
     fun putKeyValue(key: String?, value: String?) {

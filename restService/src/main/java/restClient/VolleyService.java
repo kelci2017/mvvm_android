@@ -9,6 +9,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,7 +41,7 @@ public abstract class VolleyService {
 
     private RestResponse restResponse = new RestResponse(VolleyService.this);
 
-    public abstract RestResult parseResult(String result);
+    public abstract RestResult parseResult(JSONObject result);
 
     public abstract String getUrl();
 
@@ -55,7 +57,7 @@ public abstract class VolleyService {
         this.useCache = useCache;
 
         RestResult restResult = restParms==null?null:restParms.checkParams();
-        if (restResult!=null) {
+        if (restResult!=null&&!restResult.isSuccess()) {
             restHandler.onReturnResult(restResult);
             return;
         }
@@ -73,16 +75,17 @@ public abstract class VolleyService {
 
     public void callService(){
         retry_times++;
-       if(needAuthorization()){
-          new RestGetToken().call(null, null, new RestHandler() {
-              @Override
-              public void onReturn(RestResult result) {
-                  callVolley();
-              }
-          }, true);
-       } else {
-           callVolley();
-       }
+//       if(needAuthorization()){
+//          new RestGetToken().call(null, null, new RestHandler() {
+//              @Override
+//              public void onReturn(RestResult result) {
+//                  callVolley();
+//              }
+//          }, true);
+//       } else {
+//           callVolley();
+//       }
+        callVolley();
     }
     private void callVolley(){
         if (getRequestType().equals(REQUESTTYPE_GET)) {

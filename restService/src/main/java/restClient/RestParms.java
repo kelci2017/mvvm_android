@@ -23,7 +23,7 @@ public class RestParms {
               restResult.setResultDesc(VolleyService.INPUTERROR_DESC);
               return restResult;
           }
-          for (int i=0;i<params.length;i++){
+          for (int i=0;i<params.length;i+=2){
               Object paramName = params[i];
               Object paramVaule = params[i+1];
               if (paramName instanceof  String) {

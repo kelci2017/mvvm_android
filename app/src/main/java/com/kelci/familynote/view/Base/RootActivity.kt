@@ -15,10 +15,12 @@ import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 import com.kelci.familynote.R
+import java.util.regex.Pattern
 
 open class RootActivity : AppCompatActivity() {
 
     private var progressDialog: ProgressDialog? = null
+
 
     fun dismissProgressDialog() {
         //Modified by Ethan on 02/22/2016, If dismissProgressDialog throw exception, still log out
@@ -104,5 +106,12 @@ open class RootActivity : AppCompatActivity() {
     fun showProgressDialog(stringId: Int) {
         val stringFromResource = getString(stringId)
         showProgressDialog(stringFromResource)
+    }
+
+    fun isEmailValid(email: String?): Boolean {
+        val expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$"
+        val pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
+        val matcher = pattern.matcher(email)
+        return matcher.matches()
     }
 }

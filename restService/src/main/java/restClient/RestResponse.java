@@ -6,12 +6,14 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import org.json.JSONObject;
+
 
 /**
  * Created by Kelci on 6/11/2018.
  */
 
-public class RestResponse implements Response.Listener<String>, Response.ErrorListener{
+public class RestResponse implements Response.Listener<JSONObject>, Response.ErrorListener{
 
     private VolleyService volleyService;
     private static int MAXIMUM_RETRY_TIMES = 3;
@@ -21,7 +23,8 @@ public class RestResponse implements Response.Listener<String>, Response.ErrorLi
     }
 
     @Override
-    public void onResponse(String response) {
+    public void onResponse(JSONObject response) {
+        Log.i("RestResponse", "Called service successfully. ResponseObject:" + response.toString());
 //        try{
 //            BaseJsonObj baseJsonObj =volleyService.fromJson(response,BaseJsonObj.class);
 //            if (volleyService.getRetry_times() < MAXIMUM_RETRY_TIMES && baseJsonObj.isSuccess()){

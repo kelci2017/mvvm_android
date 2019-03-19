@@ -10,7 +10,7 @@ class ServiceUtil {
     companion object {
 
         @Synchronized
-        fun login(restTag: RestTag, restParms: RestParms, restHandler: RestHandler<*>, useCache: Boolean) {
+        fun login(restTag: RestTag?, restParms: RestParms, restHandler: RestHandler<Any>?, useCache: Boolean) {
             RestLogin().call(restTag, restParms, restHandler, useCache)
         }
     }

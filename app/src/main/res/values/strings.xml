@@ -16,4 +16,9 @@
     <string name="settings_version">1.0</string>
     <string name="search_title">Search</string>
     <string name="about_name">ABOUT</string>
+    <string name="user_name">email</string>
+    <string name="user_password">password</string>
+    <string name="token">token</string>
+    <string name="sessionid">sessionid</string>
+    <string name="userID">UserID</string>
 </resources>

@@ -1,13 +1,13 @@
 package com.kelci.familynote.model.dataStructure
 
-class TokenSessionRestResult(token : String, sessionid : String, userID : String)  {
+class TokenSessionRestResult(resultCode : Int, resultDesc : Any, token : String?, sessionID : String?, userID : String?) : BaseResult(resultCode, resultDesc)  {
 
     private var token : String? = null
-    private var sessionid : String? = null
+    private var sessionID : String? = null
     private var userID : String? = null
 
     init {
-        this.sessionid = sessionid
+        this.sessionID = sessionID
         this.token = token
         this.userID = userID
     }
@@ -17,7 +17,7 @@ class TokenSessionRestResult(token : String, sessionid : String, userID : String
     }
 
     fun getSessionid() : String? {
-        return sessionid
+        return sessionID
     }
 
     fun getUserID() : String? {

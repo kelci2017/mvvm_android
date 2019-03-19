@@ -1,10 +1,12 @@
 package com.kelci.familynote.model.restService
 
+import android.util.Log
 import com.google.gson.Gson
 import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.R
 import com.kelci.familynote.model.dataStructure.TokenSessionRestResult
 import com.kelci.familynote.model.dataStructure.UserPostBody
+import org.json.JSONObject
 import restClient.RestResult
 import restClient.VolleyService
 
@@ -13,13 +15,14 @@ class RestLogin : VolleyService() {
     var email : String = ""
     var password : String = ""
 
-    override fun parseResult(result: String?): RestResult<*> {
-        return RestResult<Any>()
-
+    override fun parseResult(result: JSONObject?): RestResult<TokenSessionRestResult> {
+        val tokenSessionRestResult = fromJson<TokenSessionRestResult>(result.toString(), TokenSessionRestResult::class.java)
+        return RestResult(tokenSessionRestResult)
     }
 
     override fun getUrl(): String {
-        return String.format(FamilyNoteApplication.familyNoteApplication!!.getString(R.string.login))
+        Log.i("aaaaaaaa", String.format(FamilyNoteApplication.familyNoteApplication!!.getString(R.string.login), FamilyNoteApplication.familyNoteApplication!!.getString(R.string.server_url)))
+        return String.format(FamilyNoteApplication.familyNoteApplication!!.getString(R.string.login), FamilyNoteApplication.familyNoteApplication!!.getString(R.string.server_url))
     }
 
     override fun initialize(): RestResult<Any> {

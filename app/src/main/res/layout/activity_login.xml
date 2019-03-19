@@ -8,6 +8,7 @@
         android:id="@+id/baseview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/background_light"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -68,9 +69,11 @@
                     android:layout_weight="1"
                     android:background="@drawable/edittext_border_round_corner"
                     android:ems="5"
+                    android:typeface="sans"
                     android:hint="@string/example_email"
                     android:inputType="textEmailAddress"
                     android:textColor="@android:color/black"
+                    android:textColorHint="@android:color/darker_gray"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toRightOf="@id/userimage" />//>
             </LinearLayout>
@@ -106,7 +109,10 @@
                     android:layout_weight="1"
                     android:background="@drawable/edittext_border_round_corner"
                     android:ems="5"
+                    android:typeface="sans"
                     android:inputType="textPassword"
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@android:color/darker_gray"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toRightOf="@id/lockimage" />>
             </LinearLayout>

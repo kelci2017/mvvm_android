@@ -3,6 +3,7 @@ package com.kelci.familynote.model.restService
 import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.R
 import com.kelci.familynote.model.dataStructure.UserPostBody
+import org.json.JSONObject
 import restClient.RestResult
 import restClient.VolleyService
 
@@ -10,7 +11,7 @@ class RestRegister : VolleyService(){
     var email : String = ""
     var password : String = ""
 
-    override fun parseResult(result: String?): RestResult<*> {
+    override fun parseResult(result: JSONObject?): RestResult<*> {
         return RestResult<Any>()
 
     }

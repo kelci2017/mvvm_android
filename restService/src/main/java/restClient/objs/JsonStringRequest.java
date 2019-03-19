@@ -1,26 +1,46 @@
 package restClient.objs;
 
 import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonRequest;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * Created by Kelci on 6/13/2018.
  */
 
-public class JsonStringRequest extends JsonRequest<String> {
+public class JsonStringRequest extends JsonRequest<JSONObject> {
 
-    public JsonStringRequest(int method, String url, String requestBody, Response.Listener<String> listener,
+    Gson gson;
+
+    public JsonStringRequest(int method, String url, String requestBody, Response.Listener<JSONObject> listener,
                        Response.ErrorListener errorListener) {
         super(method, url, requestBody, listener, errorListener);}
 
-    public Response<String> parseNetworkResponse(NetworkResponse response){
-        if (response.statusCode == 200) {
-            return Response.success(response.data.toString(), HttpHeaderParser.parseCacheHeaders(response));
-        } else {
-            return Response.error(new VolleyError());
+    public Response<JSONObject> parseNetworkResponse(NetworkResponse response){
+//        if (response.statusCode == 200) {
+//            return Response.success(response.data.toString(), HttpHeaderParser.parseCacheHeaders(response));
+//        } else {
+//            return Response.error(new VolleyError());
+//        }
+        try {
+            String jsonString = new String(response.data,
+                    HttpHeaderParser.parseCharset(response.headers));
+            return Response.success(new JSONObject(jsonString),
+                    HttpHeaderParser.parseCacheHeaders(response));
+        } catch (UnsupportedEncodingException e) {
+            return Response.error(new ParseError(e));
+        } catch (JSONException je) {
+            return Response.error(new ParseError(je));
         }
     }
 }
