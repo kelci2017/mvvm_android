@@ -1,6 +1,9 @@
 package com.kelci.familynote.view.Settings
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
 import android.util.Log
 
@@ -9,8 +12,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ListView
+import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.R
+import com.kelci.familynote.model.dataStructure.BaseResult
 import com.kelci.familynote.view.Base.BaseFragment
+import com.kelci.familynote.view.Base.RootActivity
+import com.kelci.familynote.viewmodel.LogoutViewModel
 import kotlinx.android.synthetic.main.settings_item.view.*
 
 
@@ -20,6 +27,7 @@ class SettingsFragment : BaseFragment() {
     private var listView : ListView? = null
     private var settingsAdapter : SettingsAdapter? = null
     private val settingsList = ArrayList<Item>()
+    private lateinit var logoutModel: LogoutViewModel
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -46,6 +54,11 @@ class SettingsFragment : BaseFragment() {
         listView?.adapter = settingsAdapter
         //setListOnClickListener()
         listView?.divider = null
+
+        logoutModel = ViewModelProviders.of(this).get(LogoutViewModel::class.java)
+
+        observeViewModel(logoutModel)
+
         return rootView
     }
 
@@ -85,7 +98,6 @@ class SettingsFragment : BaseFragment() {
                             //settingsAdapter?.hideDivider()
                         }
                         settingsAdapter?.notifyDataSetChanged()
-                      //settingsAdapter?.expandClapseDate()
                     }
                     getString(R.string.settings_add_member) -> {
                         //add family members
@@ -94,13 +106,9 @@ class SettingsFragment : BaseFragment() {
                     }
                     getString(R.string.settings_logout) -> {
                         //logout
-
+                        logoutModel.logout()
+                        getMainActivity()?.showProgressDialog("Logout...")
                     }
-//                    "" -> {
-//                        //the added calendar view
-//                        settingsAdapter?.selectDate()
-//                        settingsAdapter?.notifyDataSetChanged()
-                //}
             else -> {
 
                 }
@@ -129,5 +137,28 @@ class SettingsFragment : BaseFragment() {
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
 
+    }
+
+    private fun observeViewModel(viewModel : LogoutViewModel) {
+
+        viewModel.logoutResult.observe(this, object : Observer<BaseResult> {
+            override fun onChanged(@Nullable baseResult: BaseResult?) {
+                if (baseResult?.getResultCode() == 21) {
+                    FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.sessionid), null)
+                    logoutModel.logout()
+                    return
+                }
+                dismissProgressDialog()
+                if (baseResult!!.isSuccess()) {
+                    //save the username and password for autologin
+                    FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.token), null)
+                    FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.sessionid), null)
+
+                    getMainActivity()?.showLoginActivity(getMainActivity() as RootActivity)
+                } else {
+                    getMainActivity()?.errorHandler(baseResult.getResultDesc().toString(), "Logout failed!")
+                }
+            }
+        })
     }
 }

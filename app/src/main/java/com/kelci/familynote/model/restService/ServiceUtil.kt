@@ -13,6 +13,22 @@ class ServiceUtil {
         fun login(restTag: RestTag?, restParms: RestParms, restHandler: RestHandler<Any>?, useCache: Boolean) {
             RestLogin().call(restTag, restParms, restHandler, useCache)
         }
+
+        @Synchronized
+        fun register(restTag: RestTag?, restParms: RestParms, restHandler: RestHandler<Any>?, useCache: Boolean) {
+            RestRegister().call(restTag, restParms, restHandler, useCache)
+        }
+
+        @Synchronized
+        fun logout(restTag: RestTag?, restParms: RestParms?, restHandler: RestHandler<Any>?, useCache: Boolean) {
+            RestLogout().call(restTag, restParms, restHandler, useCache)
+        }
+
+        @Synchronized
+        fun getToken(restTag: RestTag?, restParms: RestParms?, restHandler: RestHandler<Any>?, useCache: Boolean) {
+            RestGetToken().call(restTag, restParms, restHandler, useCache)
+        }
+
     }
 
 }

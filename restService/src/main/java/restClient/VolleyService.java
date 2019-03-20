@@ -14,6 +14,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.jsonwebtoken.JwtBuilder;
+
 /**
  * Created by Kelci on 6/12/2018.
  */
@@ -146,6 +148,7 @@ public abstract class VolleyService {
     protected void clearToken(){
         JWT_TOKEN = null;
     }
+    public String getToken() { return JWT_TOKEN;}
     protected Object getParameter(String key){
         return getRestParms().getParam(key);
     }

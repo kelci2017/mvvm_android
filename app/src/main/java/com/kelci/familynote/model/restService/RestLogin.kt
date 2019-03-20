@@ -21,7 +21,7 @@ class RestLogin : VolleyService() {
     }
 
     override fun getUrl(): String {
-        Log.i("aaaaaaaa", String.format(FamilyNoteApplication.familyNoteApplication!!.getString(R.string.login), FamilyNoteApplication.familyNoteApplication!!.getString(R.string.server_url)))
+
         return String.format(FamilyNoteApplication.familyNoteApplication!!.getString(R.string.login), FamilyNoteApplication.familyNoteApplication!!.getString(R.string.server_url))
     }
 
@@ -41,9 +41,5 @@ class RestLogin : VolleyService() {
         postBody = UserPostBody(email, password)
 
         return toJson(postBody)
-    }
-
-    override fun isUseCache(): Boolean {
-        return super.isUseCache()
     }
 }

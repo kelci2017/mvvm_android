@@ -1,24 +1,17 @@
 package com.kelci.familynote.viewmodel
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import com.kelci.familynote.model.dataStructure.TokenSessionRestResult
-import com.kelci.familynote.model.dataStructure.User
 import com.kelci.familynote.model.restService.ServiceUtil
+import com.kelci.familynote.viewmodel.base.BaseViewModel
 import restClient.RestHandler
 import restClient.RestParms
 import restClient.RestResult
 import restClient.RestTag
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel : BaseViewModel() {
 
-    var userData: MutableLiveData<TokenSessionRestResult>? = null
-    val tokenSessionRestResultInit = TokenSessionRestResult(0, "", "", "", "")
-
-    init {
-        userData?.value = tokenSessionRestResultInit
-    }
+    var userData = MutableLiveData<TokenSessionRestResult>()
 
     fun login(email : String, password : String) {
         var restParams : RestParms = RestParms()
@@ -38,10 +31,9 @@ class LoginViewModel : ViewModel() {
 
                     if (tokenSessionRestResult != null) {
                         //val user = User(tokenSessionRestResult.getSessionid(), tokenSessionRestResult.getToken(), tokenSessionRestResult.getUserID())
-                        userData?.value = tokenSessionRestResult
-                        return
+                        userData.value = tokenSessionRestResult
                     }
             }
-        }, true)
+        }, false)
     }
 }

@@ -27,7 +27,7 @@ class FamilyNoteApplication : Application() {
 
     fun putKeyValue(key: String?, value: String?) {
         if (appPreferences == null) return
-        if (key == null || value == null) return
+        if (key == null) return
         appPreferences?.put(key, value)
     }
 
