@@ -8,9 +8,15 @@ import android.util.Log
 import android.view.MenuItem
 import com.kelci.familynote.R
 import android.widget.TextView
+import com.kelci.familynote.FamilyNoteApplication
+import com.kelci.familynote.model.dataStructure.BaseResult
+import com.kelci.familynote.model.restService.ServiceUtil
 import com.kelci.familynote.view.Base.RootActivity
 import com.kelci.familynote.view.Settings.SettingsFragment
 import com.kelci.familynote.view.Settings.SettingsPagerAdapter
+import restClient.RestHandler
+import restClient.RestResult
+import restClient.RestTag
 
 
 class MainActivity : RootActivity() {
@@ -57,6 +63,8 @@ class MainActivity : RootActivity() {
             }
 
         })
+
+        //getFamilyMemberList()
     }
 
     override fun onBackPressed() {
@@ -67,5 +75,26 @@ class MainActivity : RootActivity() {
                 fragment.onResume()
             }
         }
+    }
+
+    private fun getFamilyMemberList() {
+        var restHandler : RestHandler<BaseResult>? = null
+
+        restHandler as RestHandler<Any>?
+
+
+       ServiceUtil.getFamilyMemberList(null,null,object : RestHandler<Any>(){
+            override fun onReturn(result: RestResult<Any>?) {
+
+                val baseResult : BaseResult? = result?.resultObject as? BaseResult
+
+                if (baseResult != null) {
+                    val familyMemberList : ArrayList<String>? = baseResult.getResultDesc() as ArrayList<String>
+                    if (familyMemberList != null) {
+                        FamilyNoteApplication.familyNoteApplication?.putKeyArralylist(resources.getString(R.string.member_list), familyMemberList)
+                    }
+                }
+            }
+        }, false)
     }
     }

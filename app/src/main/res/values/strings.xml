@@ -21,4 +21,10 @@
     <string name="token">token</string>
     <string name="sessionid">sessionid</string>
     <string name="userID">UserID</string>
+    <string name="sender">from</string>
+    <string name="receiver">to</string>
+    <string name="note_body">noteBody</string>
+    <string name="date">date</string>
+    <string name="member_list">familyMemberList</string>
+    <string name="keywords">keywords</string>
 </resources>

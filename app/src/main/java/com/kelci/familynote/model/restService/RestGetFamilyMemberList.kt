@@ -8,7 +8,7 @@ import org.json.JSONObject
 import restClient.RestResult
 import restClient.VolleyService
 
-class RestLogout : VolleyService() {
+class RestGetFamilyMemberList : VolleyService() {
 
     override fun parseResult(result: JSONObject?): RestResult<BaseResult> {
         val baseResult = fromJson<BaseResult>(result.toString(), BaseResult::class.java)
@@ -17,7 +17,7 @@ class RestLogout : VolleyService() {
 
     override fun getUrl(): String {
 
-        val logoutString = FamilyNoteApplication.familyNoteApplication!!.getString(R.string.logout)
+        val logoutString = FamilyNoteApplication.familyNoteApplication!!.getString(R.string.get_family_members)
         val serverURL = FamilyNoteApplication.familyNoteApplication!!.getString(R.string.server_url)
         val sessionid = FamilyNoteApplication.familyNoteApplication!!.getKeyValue(FamilyNoteApplication.familyNoteApplication!!.getString(R.string.sessionid))
 

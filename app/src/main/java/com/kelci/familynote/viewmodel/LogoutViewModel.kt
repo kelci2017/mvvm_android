@@ -4,7 +4,6 @@ import android.arch.lifecycle.MutableLiveData
 import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.R
 import com.kelci.familynote.model.dataStructure.BaseResult
-import com.kelci.familynote.model.dataStructure.TokenSessionRestResult
 import com.kelci.familynote.model.restService.ServiceUtil
 import com.kelci.familynote.viewmodel.base.BaseViewModel
 import restClient.RestHandler
@@ -17,26 +16,18 @@ class LogoutViewModel : BaseViewModel() {
 
     fun logout() {
 
-        if (FamilyNoteApplication.familyNoteApplication?.getKeyValue(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.sessionid)) != null) {
+        if (FamilyNoteApplication.familyNoteApplication?.getKeyValue(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.token)) != null) {
             callLogout()
         } else {
-//             if (getToken()) {
-//                 callLogout()
-//             }
-            ServiceUtil.getToken(null,null,object : RestHandler<Any>(){
-                override fun onReturn(result: RestResult<Any>?) {
-
-                    val tokenSessionRestResult : TokenSessionRestResult? = result?.resultObject as? TokenSessionRestResult
-
-                    if (tokenSessionRestResult != null && tokenSessionRestResult.isSuccess()) {
-                        FamilyNoteApplication.familyNoteApplication?.putKeyValue(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.token), tokenSessionRestResult.getToken())
-                        callLogout()
-                    }
-                }
-            }, false)
+             getToken()
         }
     }
 
+    override fun callNext() {
+
+        callLogout()
+
+    }
     private fun callLogout() {
 
         var restHandler : RestHandler<BaseResult>? = null

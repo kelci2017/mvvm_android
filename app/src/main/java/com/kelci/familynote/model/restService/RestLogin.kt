@@ -26,8 +26,8 @@ class RestLogin : VolleyService() {
     }
 
     override fun initialize(): RestResult<Any> {
-        email = getParameter("email") as String
-        password = getParameter("password") as String
+        email = getParameter(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.user_name)) as String
+        password = getParameter(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.user_password)) as String
 
         return RestResult()
     }

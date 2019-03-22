@@ -1,40 +1,35 @@
 package com.kelci.familynote.model.dataStructure
 
 
-class Note(from : String, to : String, noteBody : String, date : String) {
+class Note(fromWhom : String, toWhom : String, noteBody : String, created : String, userID : String?) {
 
-    private var from : String = ""
-    private var to : String = ""
+    private var fromWhom : String = ""
+    private var toWhom : String = ""
     private var noteBody : String = ""
-    private var date : String = ""
-//    val calendarF = Calendar.getInstance()
-//    var day = calendarF.get(Calendar.DAY_OF_MONTH)
-//    var year = calendarF.get(Calendar.YEAR)
-//    var month = calendarF.get(Calendar.MONTH)
-//
-//    private var dateS : String = "" + year + "-0" + (month + 1) + "-" + day
-//    private var dateL : String = "" + year + (month + 1) + "-" + day
+    private var created : String = ""
+    private var userID : String? = null
 
     init {
-        this.from = from
-        this.to = to
+        this.fromWhom = fromWhom
+        this.toWhom = toWhom
         this.noteBody = noteBody
-        this.date = date
+        this.created = created
+        this.userID = userID
     }
 
-    fun getSender() : String {
-        return from
+    fun getFromWhom() : String {
+        return fromWhom
     }
 
-    fun getReceiver() : String {
-        return to
+    fun getToWhom() : String {
+        return toWhom
     }
 
     fun getNotebody() : String {
         return noteBody
     }
 
-    fun getDate() : String {
-        return date
+    fun getCreated() : String {
+        return created
     }
 }

@@ -106,7 +106,7 @@ public abstract class VolleyService {
     public Map<String, String> getHeaders() throws AuthFailureError {
         if (!needAuthorization()) return null;
         final Map<String, String> headers = new HashMap<>();
-        headers.put("Authorization", TOKEN_SCHEME + JWT_TOKEN);
+        headers.put("Authorization", TOKEN_SCHEME + getToken());
 
         return headers;
     }

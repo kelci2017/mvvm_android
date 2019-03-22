@@ -46,7 +46,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.8"
+                android:layout_weight="0.75"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -54,7 +54,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="25dp"
                     android:orientation="horizontal"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -72,11 +72,11 @@
                     <EditText
                         android:id="@+id/name_first"
                         android:layout_width="wrap_content"
-                        android:layout_height="35dp"
-                        android:layout_marginLeft="-45dp"
+                        android:layout_height="37dp"
+                        android:layout_marginLeft="-80dp"
                         android:layout_weight="1"
                         android:background="@drawable/edittext_border_round_corner"
-                        android:ems="5"
+                        android:ems="4"
                         android:inputType="textPersonName"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@id/textView3" />
@@ -104,11 +104,11 @@
                     <EditText
                         android:id="@+id/name_second"
                         android:layout_width="wrap_content"
-                        android:layout_height="35dp"
-                        android:layout_marginLeft="-40dp"
+                        android:layout_height="37dp"
+                        android:layout_marginLeft="-80dp"
                         android:layout_weight="1"
                         android:background="@drawable/edittext_border_round_corner"
-                        android:ems="5"
+                        android:ems="4"
                         android:inputType="textPersonName"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@id/textView5" />
@@ -136,11 +136,11 @@
                     <EditText
                         android:id="@+id/name_third"
                         android:layout_width="wrap_content"
-                        android:layout_height="35dp"
-                        android:layout_marginLeft="-40dp"
+                        android:layout_height="37dp"
+                        android:layout_marginLeft="-80dp"
                         android:layout_weight="1"
                         android:background="@drawable/edittext_border_round_corner"
-                        android:ems="5"
+                        android:ems="4"
                         android:inputType="textPersonName"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@id/textView6" />
@@ -168,11 +168,11 @@
                     <EditText
                         android:id="@+id/name_fourth"
                         android:layout_width="wrap_content"
-                        android:layout_height="35dp"
-                        android:layout_marginLeft="-40dp"
+                        android:layout_height="37dp"
+                        android:layout_marginLeft="-80dp"
                         android:layout_weight="1"
                         android:background="@drawable/edittext_border_round_corner"
-                        android:ems="5"
+                        android:ems="4"
                         android:inputType="textPersonName"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@id/textView7" />
@@ -200,11 +200,11 @@
                     <EditText
                         android:id="@+id/name_fifth"
                         android:layout_width="wrap_content"
-                        android:layout_height="35dp"
-                        android:layout_marginLeft="-40dp"
+                        android:layout_height="37dp"
+                        android:layout_marginLeft="-80dp"
                         android:layout_weight="1"
                         android:background="@drawable/edittext_border_round_corner"
-                        android:ems="5"
+                        android:ems="4"
                         android:inputType="textPersonName"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@id/textView8" />
@@ -232,11 +232,11 @@
                     <EditText
                         android:id="@+id/name_sixth"
                         android:layout_width="wrap_content"
-                        android:layout_height="35dp"
-                        android:layout_marginLeft="-40dp"
+                        android:layout_height="37dp"
+                        android:layout_marginLeft="-80dp"
                         android:layout_weight="1"
                         android:background="@drawable/edittext_border_round_corner"
-                        android:ems="5"
+                        android:ems="4"
                         android:inputType="textPersonName"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@id/textView9" />
@@ -264,11 +264,11 @@
                     <EditText
                         android:id="@+id/name_seventh"
                         android:layout_width="wrap_content"
-                        android:layout_height="35dp"
-                        android:layout_marginLeft="-40dp"
+                        android:layout_height="37dp"
+                        android:layout_marginLeft="-80dp"
                         android:layout_weight="1"
                         android:background="@drawable/edittext_border_round_corner"
-                        android:ems="5"
+                        android:ems="4"
                         android:inputType="textPersonName"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@id/textView10" />
@@ -296,11 +296,11 @@
                     <EditText
                         android:id="@+id/name_eighth"
                         android:layout_width="wrap_content"
-                        android:layout_height="35dp"
-                        android:layout_marginLeft="-40dp"
+                        android:layout_height="37dp"
+                        android:layout_marginLeft="-80dp"
                         android:layout_weight="1"
                         android:background="@drawable/edittext_border_round_corner"
-                        android:ems="5"
+                        android:ems="4"
                         android:inputType="textPersonName"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@id/textView11" />
@@ -328,11 +328,11 @@
                     <EditText
                         android:id="@+id/name_ninth"
                         android:layout_width="wrap_content"
-                        android:layout_height="35dp"
-                        android:layout_marginLeft="-40dp"
+                        android:layout_height="37dp"
+                        android:layout_marginLeft="-80dp"
                         android:layout_weight="1"
                         android:background="@drawable/edittext_border_round_corner"
-                        android:ems="5"
+                        android:ems="4"
                         android:inputType="textPersonName"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@id/textView12" />
@@ -351,7 +351,7 @@
             app:layout_constraintTop_toBottomOf="@id/linear_layout">
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/add_button"
                 android:layout_width="320dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"

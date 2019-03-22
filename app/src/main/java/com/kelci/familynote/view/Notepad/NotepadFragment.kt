@@ -1,6 +1,9 @@
 package com.kelci.familynote.view.Notepad
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.annotation.Nullable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +11,11 @@ import android.widget.*
 import com.kelci.familynote.R
 import android.widget.TextView
 import android.widget.ArrayAdapter
+import com.kelci.familynote.FamilyNoteApplication
+import com.kelci.familynote.model.dataStructure.BaseResult
 import com.kelci.familynote.view.Base.BaseFragment
+import com.kelci.familynote.viewmodel.AddFamilyMemberViewModel
+import com.kelci.familynote.viewmodel.NoteSubmiteViewModel
 
 
 class NotepadFragment : BaseFragment() {
@@ -20,16 +27,12 @@ class NotepadFragment : BaseFragment() {
     private var receiver : TextView? = null
     private var noteBody : TextView? = null
     private var submit : Button? = null
-    private val familyMemberList = ArrayList<String>()
+    private var familyMemberList = ArrayList<String>()
     private var spinnerAdapter : ArrayAdapter<String>? = null
-    private var spinnerFromAdapter : ArrayAdapter<String>? = null
+    private var firstEmptyMember = ArrayList<String>()
 
-    companion object {
-
-        fun newInstance(): NotepadFragment {
-            return NotepadFragment()
-        }
-    }
+    private lateinit var noteSubmitModel: NoteSubmiteViewModel
+    private lateinit var addFamilyMemberModel: AddFamilyMemberViewModel
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -43,10 +46,13 @@ class NotepadFragment : BaseFragment() {
         noteBody = rootView?.findViewById(R.id.notebody) as TextView
         submit = rootView?.findViewById(R.id.submit) as Button
 
-        familyMemberList.add("")
-        familyMemberList.add("Kelci")
-        familyMemberList.add("Alisa")
-        familyMemberList.add("Arwin")
+        firstEmptyMember.add("")
+        familyMemberList.addAll(firstEmptyMember)
+
+        if (FamilyNoteApplication.familyNoteApplication?.getKeyArraylist(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.member_list)) != null) {
+            val savedList = FamilyNoteApplication.familyNoteApplication?.getKeyArraylist(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.member_list)) as ArrayList<String>
+            familyMemberList.addAll(savedList)
+        }
 
         spinnerAdapter = object : ArrayAdapter<String>(activity!!.applicationContext, R.layout.spinner_item, familyMemberList) {
             override fun getDropDownView(position: Int, convertView: View?,
@@ -72,6 +78,20 @@ class NotepadFragment : BaseFragment() {
         spinnerFrom?.adapter = spinnerAdapter
 
         setSpinnerListener()
+
+        noteSubmitModel = ViewModelProviders.of(this).get(NoteSubmiteViewModel::class.java)
+        addFamilyMemberModel = ViewModelProviders.of(this).get(AddFamilyMemberViewModel::class.java)
+
+        observeViewModel()
+
+        submit?.setOnClickListener { view ->
+
+            if (noteBody?.text == null) showAlertBox("Please input your note.", "Note is empty!")
+
+            noteSubmitModel.submitNote(sender?.text.toString(), receiver?.text.toString(),noteBody?.text.toString())
+            showProgressDialog("Loading...")
+
+        }
 
         return rootView
     }
@@ -102,5 +122,41 @@ class NotepadFragment : BaseFragment() {
                 /*Do something if nothing selected*/
             }
         }
+    }
+
+    private fun observeViewModel() {
+        observeFamilyMemberModel(addFamilyMemberModel)
+        observeSubmitNoteModel(noteSubmitModel)
+    }
+
+    private fun observeSubmitNoteModel(viewModel: NoteSubmiteViewModel) {
+
+        viewModel.submitNoteResult.observe(this, object : Observer<BaseResult> {
+            override fun onChanged(@Nullable submitResult: BaseResult?) {
+                dismissProgressDialog()
+                if (submitResult!!.isSuccess()) {
+                    dismissProgressDialog()
+                    showAlertBox("Note was submitted successfully.","Submitted")
+                    sender?.text = ""
+                    receiver?.text = ""
+                    noteBody?.text = ""
+                } else {
+                    getMainActivity()?.errorHandler(submitResult.getResultDesc().toString(), "Submit failed!")
+                }
+            }
+        })
+    }
+
+    private fun observeFamilyMemberModel(viewModel: AddFamilyMemberViewModel) {
+
+        viewModel.addFamilyMemberResult.observe(this, object : Observer<BaseResult> {
+            override fun onChanged(@Nullable addFamilyMemberResult: BaseResult?) {
+                dismissProgressDialog()
+                if (addFamilyMemberResult!!.isSuccess()) {
+                    familyMemberList = FamilyNoteApplication.familyNoteApplication?.getKeyArraylist(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.member_list)) as ArrayList<String>
+                    spinnerAdapter?.notifyDataSetChanged()
+                }
+            }
+        })
     }
 }

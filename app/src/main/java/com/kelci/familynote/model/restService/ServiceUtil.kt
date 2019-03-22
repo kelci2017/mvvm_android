@@ -3,7 +3,6 @@ package com.kelci.familynote.model.restService
 import restClient.RestHandler
 import restClient.RestParms
 import restClient.RestTag
-import restClientService.RestGetTasks
 
 class ServiceUtil {
 
@@ -29,6 +28,30 @@ class ServiceUtil {
             RestGetToken().call(restTag, restParms, restHandler, useCache)
         }
 
+        @Synchronized
+        fun getFamilyMemberList(restTag: RestTag?, restParms: RestParms?, restHandler: RestHandler<Any>?, useCache: Boolean) {
+            RestGetFamilyMemberList().call(restTag, restParms, restHandler, useCache)
+        }
+
+        @Synchronized
+        fun submitNote(restTag: RestTag?, restParms: RestParms?, restHandler: RestHandler<Any>?, useCache: Boolean) {
+            RestSubmitNote().call(restTag, restParms, restHandler, useCache)
+        }
+
+        @Synchronized
+        fun filterNote(restTag: RestTag?, restParms: RestParms?, restHandler: RestHandler<Any>?, useCache: Boolean) {
+            RestFilterNote().call(restTag, restParms, restHandler, useCache)
+        }
+
+        @Synchronized
+        fun addFamilyMember(restTag: RestTag?, restParms: RestParms?, restHandler: RestHandler<Any>?, useCache: Boolean) {
+            RestAddFamilyMember().call(restTag, restParms, restHandler, useCache)
+        }
+
+        @Synchronized
+        fun searchNote(restTag: RestTag?, restParms: RestParms?, restHandler: RestHandler<Any>?, useCache: Boolean) {
+            RestSearchNote().call(restTag, restParms, restHandler, useCache)
+        }
     }
 
 }

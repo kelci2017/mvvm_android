@@ -10,8 +10,8 @@ import restClient.RestResult
 
 open class BaseViewModel : ViewModel() {
 
-    fun getToken() : Boolean {
-        var tokenFetched = false
+    fun getToken() {
+
         ServiceUtil.getToken(null,null,object : RestHandler<Any>(){
             override fun onReturn(result: RestResult<Any>?) {
 
@@ -19,11 +19,11 @@ open class BaseViewModel : ViewModel() {
 
                 if (tokenSessionRestResult != null && tokenSessionRestResult.isSuccess()) {
                     FamilyNoteApplication.familyNoteApplication?.putKeyValue(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.sessionid), tokenSessionRestResult.getSessionid())
-                    tokenFetched = true
+                    callNext()
                 }
             }
         }, false)
-
-        return tokenFetched
     }
+
+    open fun callNext(){}
 }

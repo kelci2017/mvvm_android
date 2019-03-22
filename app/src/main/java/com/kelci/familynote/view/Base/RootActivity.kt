@@ -5,6 +5,8 @@ import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Typeface
+import android.os.Bundle
+import android.os.PersistableBundle
 import android.support.v7.app.AppCompatActivity
 import android.util.TypedValue
 import android.view.Gravity
@@ -13,6 +15,7 @@ import android.widget.TextView
 import com.kelci.familynote.view.Initial.MainActivity
 import java.util.regex.Pattern
 import android.widget.LinearLayout
+import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.view.Initial.LoginActivity
 
 
@@ -20,7 +23,10 @@ open class RootActivity : AppCompatActivity() {
 
     private var progressDialog: ProgressDialog? = null
 
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        FamilyNoteApplication.familyNoteApplication?.setCurrentActivity(this)
+    }
     fun dismissProgressDialog() {
         //Modified by Ethan on 02/22/2016, If dismissProgressDialog throw exception, still log out
         try {
@@ -141,4 +147,14 @@ open class RootActivity : AppCompatActivity() {
         val intent = Intent(activity, LoginActivity::class.java)
         startActivity(intent)
     }
+
+    override fun onBackPressed() {
+
+        if (FamilyNoteApplication.familyNoteApplication?.getCurrentActivity() is LoginActivity || FamilyNoteApplication.familyNoteApplication?.getCurrentActivity() is MainActivity ) {
+            moveTaskToBack(true)
+        } else {
+            super.onBackPressed()
+        }
+    }
+
 }

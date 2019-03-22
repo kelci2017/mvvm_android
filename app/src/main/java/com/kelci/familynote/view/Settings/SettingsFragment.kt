@@ -144,7 +144,7 @@ class SettingsFragment : BaseFragment() {
         viewModel.logoutResult.observe(this, object : Observer<BaseResult> {
             override fun onChanged(@Nullable baseResult: BaseResult?) {
                 if (baseResult?.getResultCode() == 21) {
-                    FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.sessionid), null)
+                    FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.token), null)
                     logoutModel.logout()
                     return
                 }
