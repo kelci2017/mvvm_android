@@ -12,9 +12,12 @@ import com.kelci.familynote.R
 import android.widget.TextView
 import android.widget.ArrayAdapter
 import com.kelci.familynote.FamilyNoteApplication
+import com.kelci.familynote.Utilities.CommonUtil
 import com.kelci.familynote.model.dataStructure.BaseResult
 import com.kelci.familynote.view.Base.BaseFragment
+import com.kelci.familynote.view.Base.RootActivity
 import com.kelci.familynote.viewmodel.AddFamilyMemberViewModel
+import com.kelci.familynote.viewmodel.NoteSearchViewModel
 import com.kelci.familynote.viewmodel.NoteSubmiteViewModel
 
 
@@ -33,6 +36,7 @@ class NotepadFragment : BaseFragment() {
 
     private lateinit var noteSubmitModel: NoteSubmiteViewModel
     private lateinit var addFamilyMemberModel: AddFamilyMemberViewModel
+    private lateinit var noteSearchModel: NoteSearchViewModel
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -81,6 +85,7 @@ class NotepadFragment : BaseFragment() {
 
         noteSubmitModel = ViewModelProviders.of(this).get(NoteSubmiteViewModel::class.java)
         addFamilyMemberModel = ViewModelProviders.of(this).get(AddFamilyMemberViewModel::class.java)
+        noteSearchModel = ViewModelProviders.of(this).get(NoteSearchViewModel::class.java)
 
         observeViewModel()
 
@@ -134,9 +139,21 @@ class NotepadFragment : BaseFragment() {
         viewModel.submitNoteResult.observe(this, object : Observer<BaseResult> {
             override fun onChanged(@Nullable submitResult: BaseResult?) {
                 dismissProgressDialog()
+                if (submitResult?.getResultCode() == TimeoutError) {
+                    getMainActivity()?.showLoginActivity(getMainActivity() as RootActivity)
+                }
                 if (submitResult!!.isSuccess()) {
                     dismissProgressDialog()
                     showAlertBox("Note was submitted successfully.","Submitted")
+
+                    val isToday = (noteSearchModel.noteSearchDate.value == getMainActivity()?.resources!!.getString(R.string.settings_default_date) || noteSearchModel.noteSearchDate.value == CommonUtil.getTodayDate())
+                    val sameSender = (noteSearchModel.noteSearchSender.value?.toLowerCase() == sender?.text.toString().toLowerCase())
+                    val sameReceiver = (noteSearchModel.noteSearchReceiver.value?.toLowerCase() == receiver?.text.toString().toLowerCase())
+
+                    if (isToday && sameSender && sameReceiver) {
+                        noteSearchModel.filterNote(getMainActivity()?.resources!!.getString(R.string.settings_default), getMainActivity()?.resources!!.getString(R.string.settings_default), getMainActivity()?.resources!!.getString(R.string.settings_default_date))
+                    }
+
                     sender?.text = ""
                     receiver?.text = ""
                     noteBody?.text = ""
@@ -151,7 +168,7 @@ class NotepadFragment : BaseFragment() {
 
         viewModel.addFamilyMemberResult.observe(this, object : Observer<BaseResult> {
             override fun onChanged(@Nullable addFamilyMemberResult: BaseResult?) {
-                dismissProgressDialog()
+                //dismissProgressDialog()
                 if (addFamilyMemberResult!!.isSuccess()) {
                     familyMemberList = FamilyNoteApplication.familyNoteApplication?.getKeyArraylist(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.member_list)) as ArrayList<String>
                     spinnerAdapter?.notifyDataSetChanged()

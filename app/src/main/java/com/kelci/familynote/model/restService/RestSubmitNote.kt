@@ -2,6 +2,7 @@ package com.kelci.familynote.model.restService
 
 import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.R
+import com.kelci.familynote.Utilities.CommonUtil
 import com.kelci.familynote.model.dataStructure.BaseResult
 import com.kelci.familynote.model.dataStructure.Note
 import org.json.JSONObject
@@ -35,15 +36,7 @@ class RestSubmitNote : VolleyService() {
         receiver = getParameter(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.receiver)) as String
         noteBody = getParameter(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.note_body)) as String
 
-        val calendarF = Calendar.getInstance()
-        val day = calendarF.get(Calendar.DAY_OF_MONTH)
-        val year = calendarF.get(Calendar.YEAR)
-        val month = calendarF.get(Calendar.MONTH)
-
-        when (month < 9) {
-            true -> date = "" + year + "-0" + (month + 1) + "-" + day
-            false -> date = "" + year + (month + 1) + "-" + day
-        }
+        date = CommonUtil.getTodayDate()
 
         return RestResult()
     }

@@ -36,7 +36,9 @@ class FamilyNoteApplication : Application() {
         familyNoteApplication = this
         appPreferences = AppPreferences(applicationContext)
         VolleyService.setRequestQueue(applicationContext)
-        getFamilyMemberList()
+        if (getKeyValue(resources.getString(R.string.sessionid)) != null && getKeyValue(resources.getString(R.string.token)) != null) {
+            getFamilyMemberList()
+        }
     }
 
     fun putKeyValue(key: String?, value: String?) {
@@ -76,7 +78,7 @@ class FamilyNoteApplication : Application() {
         this.mCurrentActivity = mCurrentActivity
     }
 
-    private fun getFamilyMemberList() {
+    fun getFamilyMemberList() {
         var restHandler : RestHandler<BaseResult>? = null
 
         restHandler as RestHandler<Any>?

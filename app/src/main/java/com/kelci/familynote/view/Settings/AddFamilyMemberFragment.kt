@@ -15,6 +15,7 @@ import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.R
 import com.kelci.familynote.model.dataStructure.BaseResult
 import com.kelci.familynote.view.Base.BaseFragment
+import com.kelci.familynote.view.Base.RootActivity
 import com.kelci.familynote.viewmodel.AddFamilyMemberViewModel
 
 class AddFamilyMemberFragment : BaseFragment() {
@@ -60,7 +61,6 @@ class AddFamilyMemberFragment : BaseFragment() {
 
         addButton?.setOnClickListener { view ->
             add()
-            showProgressDialog("Adding family members...")
         }
 
         observeViewModel(addFamilyMemberModel)
@@ -80,8 +80,12 @@ class AddFamilyMemberFragment : BaseFragment() {
         addFamilyMember(nameNinth?.text.toString())
 
         if (newAddedFamilyMemberList.size > 0) {
+            showProgressDialog("Adding family members...")
             newAddedFamilyMemberList.addAll(savedFamilyMemberList)
             addFamilyMemberModel.addFamilyMmeber(newAddedFamilyMemberList)
+        } else {
+            activity!!.supportFragmentManager.beginTransaction().remove(this@AddFamilyMemberFragment).commit()
+            getMainActivity()?.onBackPressed()
         }
 
     }
@@ -101,9 +105,13 @@ class AddFamilyMemberFragment : BaseFragment() {
         viewModel.addFamilyMemberResult.observe(this, object : Observer<BaseResult> {
             override fun onChanged(@Nullable addedResult: BaseResult?) {
                 dismissProgressDialog()
+                if (addedResult?.getResultCode() == TimeoutError) {
+                    getMainActivity()?.showLoginActivity(getMainActivity() as RootActivity)
+                }
                 if (addedResult!!.isSuccess()) {
                     dismissProgressDialog()
                     activity!!.supportFragmentManager.beginTransaction().remove(this@AddFamilyMemberFragment).commit()
+                    getMainActivity()?.onBackPressed()
                 } else {
                     getMainActivity()?.errorHandler(addedResult.getResultDesc().toString(), "Add family members failed!")
                 }

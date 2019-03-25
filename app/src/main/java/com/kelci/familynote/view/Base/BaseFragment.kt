@@ -13,11 +13,9 @@ import com.kelci.familynote.view.Initial.MainActivity
 open class BaseFragment : Fragment() {
 
     companion object {
-
-        fun newInstance(): BaseFragment {
-            return BaseFragment()
-        }
+        const val TimeoutError = 16
     }
+
     val name = BaseFragment::class.java.name
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Log.i(name, "the onCreateView was called" )

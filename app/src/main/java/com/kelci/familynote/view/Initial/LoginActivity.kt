@@ -76,6 +76,8 @@ class LoginActivity : RootActivity() {
                     FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.userID), tokenSessionRestResult.getUserID())
                     FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.sessionid), tokenSessionRestResult.getSessionid())
 
+                    FamilyNoteApplication.familyNoteApplication?.getFamilyMemberList()
+
                     showMainActivity(this@LoginActivity as RootActivity)
                 } else {
                     errorHandler(tokenSessionRestResult.getResultDesc().toString(), "Login failed!")

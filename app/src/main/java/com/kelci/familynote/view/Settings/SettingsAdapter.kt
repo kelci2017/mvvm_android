@@ -18,6 +18,8 @@ class SettingsAdapter(context : Context, items : ArrayList<Item>) : BaseAdapter(
     private var itemLayout : LinearLayout? = null
     private var selectedDate : String = "Today"
     private var divider : View? = null
+    private var senderName = "All"
+    private var receiverName = "All"
 
     override fun getCount(): Int {
         return items.count()
@@ -75,7 +77,12 @@ class SettingsAdapter(context : Context, items : ArrayList<Item>) : BaseAdapter(
             if (items.count() <= 8 && p0 == 3) {
                 showDivider()
             }
-
+            if (p0 == 0) {
+                itemSubtitle?.text = senderName
+            }
+            if (p0 == 1) {
+                itemSubtitle?.text = receiverName
+            }
 
         }
 
@@ -111,5 +118,25 @@ class SettingsAdapter(context : Context, items : ArrayList<Item>) : BaseAdapter(
     override fun getItemId(p0: Int): Long {
 
         return p0.toLong()
+    }
+
+    fun setSender(name : String) {
+        senderName = name
+    }
+
+    fun setReceiver(name : String) {
+        receiverName = name
+    }
+
+    fun getSenderName() : String{
+        return senderName
+    }
+
+    fun getReveiverName() : String {
+        return receiverName
+    }
+
+    fun getDate() : String {
+        return selectedDate
     }
 }

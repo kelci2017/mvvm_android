@@ -17,7 +17,9 @@ import com.kelci.familynote.R
 import com.kelci.familynote.model.dataStructure.BaseResult
 import com.kelci.familynote.view.Base.BaseFragment
 import com.kelci.familynote.view.Base.RootActivity
+import com.kelci.familynote.viewmodel.AddFamilyMemberViewModel
 import com.kelci.familynote.viewmodel.LogoutViewModel
+import com.kelci.familynote.viewmodel.NoteSearchViewModel
 import kotlinx.android.synthetic.main.settings_item.view.*
 
 
@@ -28,6 +30,8 @@ class SettingsFragment : BaseFragment() {
     private var settingsAdapter : SettingsAdapter? = null
     private val settingsList = ArrayList<Item>()
     private lateinit var logoutModel: LogoutViewModel
+    private lateinit var noteSearchModel: NoteSearchViewModel
+    private lateinit var addFamilyMemberModel: AddFamilyMemberViewModel
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -56,8 +60,10 @@ class SettingsFragment : BaseFragment() {
         listView?.divider = null
 
         logoutModel = ViewModelProviders.of(this).get(LogoutViewModel::class.java)
+        noteSearchModel = ViewModelProviders.of(this).get(NoteSearchViewModel::class.java)
+        addFamilyMemberModel = ViewModelProviders.of(this).get(AddFamilyMemberViewModel::class.java)
 
-        observeViewModel(logoutModel)
+        observeViewModel()
 
         return rootView
     }
@@ -80,12 +86,12 @@ class SettingsFragment : BaseFragment() {
                 when(selectedItem.getTitle()) {
                     getString(R.string.settings_sender) -> {
                         //check notes from
-                        showFamilyMemberFragment()
+                        showFamilyMemberFragment(getMainActivity()?.resources!!.getString(R.string.settings_sender))
 
                     }
                     getString(R.string.settings_receiver) -> {
                         //check notes to
-                        showFamilyMemberFragment()
+                        showFamilyMemberFragment(getMainActivity()?.resources!!.getString(R.string.settings_receiver))
                     }
                     getString(R.string.settings_date) -> {
                         //check notes date
@@ -116,14 +122,17 @@ class SettingsFragment : BaseFragment() {
         }
     }
 
-    private fun showFamilyMemberFragment() {
+    private fun showFamilyMemberFragment(from : String) {
 
         var familyMemberFragment = FamilyMemberFragment() as Fragment
+        val bundle = Bundle()
+        bundle.putString("from", from)
+        familyMemberFragment.arguments = bundle
         val fragmentManager = activity!!.supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
 
         fragmentTransaction.add(R.id.settings_layout, familyMemberFragment, "familyMemberFragment")
-        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.addToBackStack(getMainActivity()?.resources!!.getString(R.string.familyMemberFragment))
         fragmentTransaction.commit()
     }
 
@@ -134,12 +143,18 @@ class SettingsFragment : BaseFragment() {
         val fragmentTransaction = fragmentManager.beginTransaction()
 
         fragmentTransaction.add(R.id.settings_layout, addFamilyMemberFragment, "addFamilyMemberFragment")
-        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.addToBackStack(getMainActivity()?.resources!!.getString(R.string.addFamilyMemberFragment))
         fragmentTransaction.commit()
 
     }
 
-    private fun observeViewModel(viewModel : LogoutViewModel) {
+    private fun observeViewModel() {
+        observeLogoutViewModel(logoutModel)
+        observeFilterViewModel(noteSearchModel)
+        observeAddFamilyMemberViewModel(addFamilyMemberModel)
+    }
+
+    private fun observeLogoutViewModel(viewModel : LogoutViewModel) {
 
         viewModel.logoutResult.observe(this, object : Observer<BaseResult> {
             override fun onChanged(@Nullable baseResult: BaseResult?) {
@@ -149,7 +164,7 @@ class SettingsFragment : BaseFragment() {
                     return
                 }
                 dismissProgressDialog()
-                if (baseResult!!.isSuccess()) {
+                if (baseResult!!.isSuccess() || baseResult.getResultCode() == TimeoutError) {
                     //save the username and password for autologin
                     FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.token), null)
                     FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.sessionid), null)
@@ -157,6 +172,54 @@ class SettingsFragment : BaseFragment() {
                     getMainActivity()?.showLoginActivity(getMainActivity() as RootActivity)
                 } else {
                     getMainActivity()?.errorHandler(baseResult.getResultDesc().toString(), "Logout failed!")
+                }
+            }
+        })
+    }
+
+    private fun observeFilterViewModel(viewModel : NoteSearchViewModel) {
+
+        viewModel.noteSearchSender.observe(this, object : Observer<String> {
+            override fun onChanged(@Nullable sender: String?) {
+                settingsAdapter?.setSender(sender!!)
+                settingsAdapter?.notifyDataSetInvalidated()
+                noteSearchModel.filterNote(settingsAdapter?.getSenderName()!!, settingsAdapter?.getReveiverName()!!, settingsAdapter?.getDate()!!)
+                getMainActivity()?.showProgressDialog("Filtering...")
+            }
+        })
+
+        viewModel.noteSearchReceiver.observe(this, object : Observer<String> {
+            override fun onChanged(@Nullable receiver: String?) {
+                settingsAdapter?.setReceiver(receiver!!)
+                settingsAdapter?.notifyDataSetInvalidated()
+                noteSearchModel.filterNote(settingsAdapter?.getSenderName()!!, settingsAdapter?.getReveiverName()!!, settingsAdapter?.getDate()!!)
+                getMainActivity()?.showProgressDialog("Filtering...")
+            }
+        })
+
+        viewModel.noteSearchResult.observe(this,  object : Observer<BaseResult> {
+            override fun onChanged(@Nullable baseResult: BaseResult?) {
+                if (baseResult?.getResultCode() == 21) {
+                    FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.token), null)
+                    noteSearchModel.filterNote(settingsAdapter?.getSenderName()!!, settingsAdapter?.getReveiverName()!!, settingsAdapter?.getDate()!!)
+                    return
+                }
+                dismissProgressDialog()
+                if (baseResult?.getResultCode() == TimeoutError) {
+                    getMainActivity()?.showLoginActivity(getMainActivity() as RootActivity)
+                }
+                if (!baseResult!!.isSuccess()) {
+                    getMainActivity()?.errorHandler(baseResult.getResultDesc().toString(), "Filter failed!")
+                }
+            }
+        })
+    }
+
+    private fun observeAddFamilyMemberViewModel(viewModel : AddFamilyMemberViewModel) {
+        viewModel.addFamilyMemberResult.observe(this,  object : Observer<BaseResult> {
+            override fun onChanged(@Nullable baseResult: BaseResult?) {
+                if (baseResult!!.isSuccess()) {
+                    listView?.isEnabled = true
                 }
             }
         })

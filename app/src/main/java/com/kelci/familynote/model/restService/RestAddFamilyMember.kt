@@ -11,7 +11,7 @@ import restClient.VolleyService
 
 class RestAddFamilyMember : VolleyService() {
 
-    var familyMemberList : ArrayList<String>? = null
+    private var familyMemberList = ArrayList<String>()
 
     override fun parseResult(result: JSONObject?): RestResult<BaseResult> {
         val baseResult = fromJson<BaseResult>(result.toString(), BaseResult::class.java)
@@ -52,16 +52,25 @@ class RestAddFamilyMember : VolleyService() {
     }
 
     override fun generatePostBody(): String {
-        var postBody : ArrayList<String>? = null
+
         if (FamilyNoteApplication.familyNoteApplication?.getKeyArraylist(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.member_list)) != null) {
             val savedList = FamilyNoteApplication.familyNoteApplication?.getKeyArraylist(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.member_list)) as ArrayList<String>
-            familyMemberList?.addAll(savedList)
+            familyMemberList.addAll(savedList)
         }
-
-        FamilyNoteApplication.familyNoteApplication?.putKeyArralylist(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.member_list), familyMemberList)
-
-        postBody = familyMemberList
+        val userID = FamilyNoteApplication.familyNoteApplication?.getKeyValue(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.userID))
+        val postBody = FamilyMemberPostBody(familyMemberList, userID)
 
         return toJson(postBody)
+    }
+
+    class FamilyMemberPostBody(familyMembers : ArrayList<String>, userID : String?) {
+
+        private var familyMembers = ArrayList<String>()
+        private var userID : String? = null
+
+        init {
+            this.familyMembers = familyMembers
+            this.userID = userID
+        }
     }
 }

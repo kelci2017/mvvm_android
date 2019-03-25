@@ -17,6 +17,11 @@ import java.util.regex.Pattern
 import android.widget.LinearLayout
 import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.view.Initial.LoginActivity
+import com.kelci.familynote.view.Initial.RegisterActivity
+import com.kelci.familynote.view.Settings.AddFamilyMemberFragment
+import com.kelci.familynote.view.Settings.FamilyMemberFragment
+import com.kelci.familynote.viewmodel.AddFamilyMemberViewModel
+import com.kelci.familynote.viewmodel.RegisterViewModel
 
 
 open class RootActivity : AppCompatActivity() {
@@ -150,10 +155,28 @@ open class RootActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
 
-        if (FamilyNoteApplication.familyNoteApplication?.getCurrentActivity() is LoginActivity || FamilyNoteApplication.familyNoteApplication?.getCurrentActivity() is MainActivity ) {
+        if (FamilyNoteApplication.familyNoteApplication?.getCurrentActivity() is LoginActivity) {
             moveTaskToBack(true)
-        } else {
+            return
+        }
+        if (FamilyNoteApplication.familyNoteApplication?.getCurrentActivity() is RegisterActivity) {
             super.onBackPressed()
+            return
+        }
+
+        if (FamilyNoteApplication.familyNoteApplication?.getCurrentActivity() is MainActivity ) {
+            if (supportFragmentManager != null) {
+                val backStackEntryCount = supportFragmentManager.backStackEntryCount
+                val index = backStackEntryCount - 1
+                val backEntry = supportFragmentManager.getBackStackEntryAt(index)
+                val tag = backEntry.name
+                val fragment = supportFragmentManager.findFragmentByTag(tag)
+                if (fragment is AddFamilyMemberFragment || fragment is FamilyMemberFragment) {
+                    super.onBackPressed()
+                } else {
+                    moveTaskToBack(true)
+                }
+            }
         }
     }
 

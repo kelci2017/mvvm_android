@@ -1,22 +1,31 @@
 package com.kelci.familynote.view.Noteboard
 
 import android.app.SearchManager
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
+import android.support.annotation.Nullable
 import android.support.v7.widget.SearchView
 import android.text.TextUtils
 import android.util.Log
 import android.view.*
 import android.widget.*
+import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.R
+import com.kelci.familynote.Utilities.CommonUtil
+import com.kelci.familynote.model.dataStructure.BaseResult
+import com.kelci.familynote.model.dataStructure.Note
 import com.kelci.familynote.view.Base.BaseFragment
+import com.kelci.familynote.view.Base.RootActivity
 import com.kelci.familynote.view.Settings.NoteAdapter
+import com.kelci.familynote.viewmodel.NoteSearchViewModel
 
 class NoteboardFragment : BaseFragment() {
 
     private var radioGroup : RadioGroup? = null
     private var rootView : View? = null
-    private val noteList = ArrayList<NoteItem>()
+    private var noteList = ArrayList<Note>()
     private var noteAdapter : NoteAdapter? = null
     private var noteListView : ListView? = null
     private var localSearchRadioButton : RadioButton? = null
@@ -24,6 +33,7 @@ class NoteboardFragment : BaseFragment() {
     private var searchItem: MenuItem? = null
     private var searchView: SearchView? = null
     private var searchEditText: EditText? = null
+    private lateinit var noteSearchModel: NoteSearchViewModel
 
     companion object {
 
@@ -40,12 +50,17 @@ class NoteboardFragment : BaseFragment() {
         localSearchRadioButton = rootView?.findViewById(R.id.local_search)
         globalSearchRadioButton = rootView?.findViewById(R.id.global_search)
 
-        noteList.add(NoteItem("Kelci", "Arwin", "2019-03-13", "This is a test note from kelci to arwin"))
-        noteList.add(NoteItem("Kelci", "Alisa", "2019-03-13", "This is a test note from kelci to alisa"))
+//        noteList.add(NoteItem("Kelci", "Arwin", "2019-03-13", "This is a test note from kelci to arwin"))
+//        noteList.add(NoteItem("Kelci", "Alisa", "2019-03-13", "This is a test note from kelci to alisa"))
         noteAdapter = NoteAdapter(activity!!.applicationContext, noteList)
         noteListView?.adapter = noteAdapter
 
         setHasOptionsMenu(true)
+
+        noteSearchModel = ViewModelProviders.of(this).get(NoteSearchViewModel::class.java)
+        observeViewModel(noteSearchModel)
+
+        noteSearchModel.filterNote(getMainActivity()?.resources!!.getString(R.string.settings_default), getMainActivity()?.resources!!.getString(R.string.settings_default), CommonUtil.getTodayDate())
 
         return rootView
     }
@@ -110,6 +125,10 @@ class NoteboardFragment : BaseFragment() {
                 }
 
                 override fun onQueryTextSubmit(query: String?): Boolean {
+                    if (globalSearchRadioButton!!.isChecked && searchEditText?.text != null) {
+                        noteSearchModel.searchNote(searchEditText?.text.toString())
+                        return true
+                    }
                     return false
                 }
             })
@@ -143,5 +162,29 @@ class NoteboardFragment : BaseFragment() {
                 }
             }
         }
+    }
+
+    private fun observeViewModel(viewModel : NoteSearchViewModel) {
+
+        viewModel.noteSearchResult.observe(this,  object : Observer<BaseResult> {
+            override fun onChanged(@Nullable baseResult: BaseResult?) {
+                if (baseResult?.getResultCode() == 21) {
+                    FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.token), null)
+                    noteSearchModel.searchNote(searchEditText?.text.toString())
+                    return
+                }
+                dismissProgressDialog()
+                if (baseResult?.getResultCode() == TimeoutError) {
+                    getMainActivity()?.showLoginActivity(getMainActivity() as RootActivity)
+                }
+                if (!baseResult!!.isSuccess()) {
+                    getMainActivity()?.errorHandler(baseResult.getResultDesc().toString(), "Filter failed!")
+                    return
+                }
+
+                noteList = baseResult.getResultDesc() as ArrayList<Note>
+                noteAdapter?.notifyDataSetInvalidated()
+            }
+        })
     }
 }

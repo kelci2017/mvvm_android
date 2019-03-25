@@ -27,4 +27,6 @@
     <string name="date">date</string>
     <string name="member_list">familyMemberList</string>
     <string name="keywords">keywords</string>
+    <string name="familyMemberFragment">familyMemberFragment</string>
+    <string name="addFamilyMemberFragment">addFamilyMemberFragment</string>
 </resources>

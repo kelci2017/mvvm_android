@@ -6,14 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.kelci.familynote.R
-import com.kelci.familynote.view.Noteboard.NoteItem
+import com.kelci.familynote.model.dataStructure.Note
 import java.util.*
 
-class NoteAdapter(context : Context, items : ArrayList<NoteItem>) : BaseAdapter() {
+class NoteAdapter(context : Context, items : ArrayList<Note>) : BaseAdapter() {
 
     private var context : Context = context
-    private var items : ArrayList<NoteItem> = items
-    private var originalItems : ArrayList<NoteItem>? = null
+    private var items : ArrayList<Note> = items
+    private var originalItems : ArrayList<Note>? = null
 
     override fun getCount(): Int {
         return items.count()
@@ -35,10 +35,10 @@ class NoteAdapter(context : Context, items : ArrayList<NoteItem>) : BaseAdapter(
         val noteBody = convertview.findViewById(R.id.notebody) as TextView
         val noteIcon = convertview.findViewById(R.id.note_icon) as ImageView
 
-        sender.text = items[p0].getSender()
-        receiver.text = items[p0].getReceiver()
-        date.text = items[p0].getDate()
-        noteBody.text = items[p0].getNote()
+        sender.text = items[p0].getFromWhom()
+        receiver.text = items[p0].getToWhom()
+        date.text = items[p0].getCreated()
+        noteBody.text = items[p0].getNotebody()
         noteIcon.setBackgroundResource(R.drawable.ic_noteimage)
 
         return convertview
@@ -55,12 +55,12 @@ class NoteAdapter(context : Context, items : ArrayList<NoteItem>) : BaseAdapter(
             override fun performFiltering(constraint: CharSequence): Filter.FilterResults? {
 
                 val results = FilterResults()
-                val filteredArrayList = ArrayList<NoteItem>()
+                val filteredArrayList = ArrayList<Note>()
                 var constraints = constraint
 
 
                 if (originalItems == null || originalItems?.count() === 0) {
-                    originalItems = ArrayList<NoteItem>(items)
+                    originalItems = ArrayList<Note>(items)
                 }
 
                 /*
@@ -73,7 +73,7 @@ class NoteAdapter(context : Context, items : ArrayList<NoteItem>) : BaseAdapter(
                 } else {
                     constraints = constraints.toString().toLowerCase(Locale.ENGLISH)
                     for (i in 0 until originalItems!!.count()) {
-                        val noteBody = originalItems!![i].getNote().toLowerCase(Locale.ENGLISH)
+                        val noteBody = originalItems!![i].getNotebody().toLowerCase(Locale.ENGLISH)
                         if (noteBody.contains(constraints.toString())) {
                             filteredArrayList.add(originalItems!![i])
                         }
@@ -86,7 +86,7 @@ class NoteAdapter(context : Context, items : ArrayList<NoteItem>) : BaseAdapter(
             }
 
             override fun publishResults(constraint: CharSequence, results: Filter.FilterResults) {
-                items = results.values as ArrayList<NoteItem>
+                items = results.values as ArrayList<Note>
                 notifyDataSetChanged()
             }
         }

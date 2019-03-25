@@ -7,6 +7,7 @@ import com.kelci.familynote.R
 import com.kelci.familynote.model.dataStructure.BaseResult
 import com.kelci.familynote.model.restService.ServiceUtil
 import com.kelci.familynote.viewmodel.base.BaseViewModel
+import com.kelci.familynote.viewmodel.base.SingleLiveEvent2
 import restClient.RestHandler
 import restClient.RestParms
 import restClient.RestResult
@@ -14,7 +15,7 @@ import restClient.RestTag
 
 class AddFamilyMemberViewModel  : BaseViewModel() {
 
-    var addFamilyMemberResult = MutableLiveData<BaseResult>()
+    var addFamilyMemberResult = SingleLiveEvent2<BaseResult>()
 
     var familyMemberList : ArrayList<String>? = null
 

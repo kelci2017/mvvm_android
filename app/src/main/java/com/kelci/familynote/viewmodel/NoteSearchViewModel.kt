@@ -6,25 +6,33 @@ import com.kelci.familynote.R
 import com.kelci.familynote.model.dataStructure.BaseResult
 import com.kelci.familynote.model.restService.ServiceUtil
 import com.kelci.familynote.viewmodel.base.BaseViewModel
+import com.kelci.familynote.viewmodel.base.SingleLiveEvent2
 import restClient.RestHandler
 import restClient.RestParms
 import restClient.RestResult
 
-class NoteSearchViewModel   : BaseViewModel() {
+class NoteSearchViewModel : BaseViewModel() {
 
     var noteSearchResult = MutableLiveData<BaseResult>()
-    var noteSearchSender : String = "All"
-    var noteSearchReceiver : String = "All"
-    var noteSearchDate : String = "Today"
+    var noteSearchSender = SingleLiveEvent2<String>()
+    var noteSearchReceiver = MutableLiveData<String>()
+    var noteSearchDate = MutableLiveData<String>()
     var noteSearchKeywords : String = ""
+    private var senderName : String = "All"
+    private var receiverName : String = "All"
+    private var date : String = "Today"
 
-
+  init {
+      noteSearchSender.value = "All"
+      noteSearchReceiver.value = "All"
+      noteSearchDate.value = "Today"
+  }
 
     fun filterNote(sender : String, receiver : String, date : String) {
 
-        this.noteSearchSender = sender
-        this.noteSearchDate = date
-        this.noteSearchReceiver = receiver
+        this.senderName = sender
+        this.date = date
+        this.receiverName = receiver
 
         if (FamilyNoteApplication.familyNoteApplication?.getKeyValue(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.token)) != null) {
             callFilterNote(sender, receiver, date)
@@ -47,10 +55,10 @@ class NoteSearchViewModel   : BaseViewModel() {
 
     override fun callNext() {
 
-        callFilterNote(noteSearchSender, noteSearchReceiver, noteSearchDate)
+        callFilterNote(senderName, receiverName, date)
 
     }
-    private fun callFilterNote(sender : String, receiver : String, date : String) {
+    private fun callFilterNote(sender : String?, receiver : String?, date : String?) {
 
         var restHandler : RestHandler<BaseResult>? = null
         restHandler as RestHandler<Any>?
@@ -91,15 +99,5 @@ class NoteSearchViewModel   : BaseViewModel() {
                 }
             }
         }, false)
-    }
-
-    fun getSearchSener() : String{
-        return this.noteSearchSender
-    }
-    fun getSearchReceiver() : String{
-        return this.noteSearchReceiver
-    }
-    fun getSearchDate() : String{
-        return this.noteSearchDate
     }
 }
