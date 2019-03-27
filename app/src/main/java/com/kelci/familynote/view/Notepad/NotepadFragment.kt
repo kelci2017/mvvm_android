@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.annotation.Nullable
+import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,34 +59,12 @@ class NotepadFragment : BaseFragment() {
             familyMemberList.addAll(savedList)
         }
 
-        spinnerAdapter = object : ArrayAdapter<String>(activity!!.applicationContext, R.layout.spinner_item, familyMemberList) {
-            override fun getDropDownView(position: Int, convertView: View?,
-                                         parent: ViewGroup): View {
-                val view = super.getDropDownView(position, convertView, parent)
-                val tv = view as TextView
-                if (position == 0) {
-                    var params = tv.layoutParams
-                    params.height = 10
-                    tv.layoutParams = params
-                } else {
-                    var params = tv.layoutParams
-                    params.height = 150
-                    tv.layoutParams = params
-                }
-                return view
-            }
-
-        }
-        spinnerAdapter?.setDropDownViewResource(R.layout.spinner_item)
-        spinnerTo?.adapter = spinnerAdapter
-
-        spinnerFrom?.adapter = spinnerAdapter
-
+        setListAndAdapter()
         setSpinnerListener()
 
-        noteSubmitModel = ViewModelProviders.of(this).get(NoteSubmiteViewModel::class.java)
-        addFamilyMemberModel = ViewModelProviders.of(this).get(AddFamilyMemberViewModel::class.java)
-        noteSearchModel = ViewModelProviders.of(this).get(NoteSearchViewModel::class.java)
+        noteSubmitModel = ViewModelProviders.of(getMainActivity() as FragmentActivity).get(NoteSubmiteViewModel::class.java)
+        addFamilyMemberModel = ViewModelProviders.of(getMainActivity() as FragmentActivity).get(AddFamilyMemberViewModel::class.java)
+        noteSearchModel = ViewModelProviders.of(getMainActivity() as FragmentActivity).get(NoteSearchViewModel::class.java)
 
         observeViewModel()
 
@@ -171,9 +150,35 @@ class NotepadFragment : BaseFragment() {
                 //dismissProgressDialog()
                 if (addFamilyMemberResult!!.isSuccess()) {
                     familyMemberList = FamilyNoteApplication.familyNoteApplication?.getKeyArraylist(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.member_list)) as ArrayList<String>
+                    setListAndAdapter()
                     spinnerAdapter?.notifyDataSetChanged()
                 }
             }
         })
+    }
+
+    private fun setListAndAdapter() {
+        spinnerAdapter = object : ArrayAdapter<String>(activity!!.applicationContext, R.layout.spinner_item, familyMemberList) {
+            override fun getDropDownView(position: Int, convertView: View?,
+                                         parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent)
+                val tv = view as TextView
+                if (position == 0) {
+                    var params = tv.layoutParams
+                    params.height = 10
+                    tv.layoutParams = params
+                } else {
+                    var params = tv.layoutParams
+                    params.height = 150
+                    tv.layoutParams = params
+                }
+                return view
+            }
+
+        }
+        spinnerAdapter?.setDropDownViewResource(R.layout.spinner_item)
+        spinnerTo?.adapter = spinnerAdapter
+
+        spinnerFrom?.adapter = spinnerAdapter
     }
 }

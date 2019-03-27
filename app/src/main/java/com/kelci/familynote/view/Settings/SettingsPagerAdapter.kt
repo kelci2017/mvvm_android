@@ -10,23 +10,29 @@ import com.kelci.familynote.view.Settings.SettingsFragment
 class SettingsPagerAdapter(fm : FragmentManager, numOfTabs : Int) : FragmentStatePagerAdapter(fm) {
 
     private var numOfTabs : Int = 0
+    private var noteboardFragment : Fragment
+    private var notepadFragment : Fragment
+    private var settingsFragment : Fragment
 
     init {
         this.numOfTabs = numOfTabs
+        noteboardFragment = NoteboardFragment()
+        notepadFragment = NotepadFragment()
+        settingsFragment = SettingsFragment()
     }
 
     override fun getItem(position: Int): Fragment {
         when(position) {
             0 -> {
-                 var noteboardFragment = NoteboardFragment() as Fragment
+                 //val noteboardFragment = NoteboardFragment() as Fragment
                 return noteboardFragment
             }
             1 -> {
-                var notepadFragment = NotepadFragment() as Fragment
+                //val notepadFragment = NotepadFragment() as Fragment
                 return notepadFragment
             }
             2 -> {
-                var settingsFragment = SettingsFragment() as Fragment
+                //val settingsFragment = SettingsFragment() as Fragment
                 return settingsFragment
             } else -> {
             return Fragment()

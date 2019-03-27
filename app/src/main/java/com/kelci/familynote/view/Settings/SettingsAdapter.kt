@@ -1,22 +1,25 @@
 package com.kelci.familynote.view.Settings
 
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.widget.*
 import com.kelci.familynote.R
+import com.kelci.familynote.Utilities.CommonUtil
+import com.kelci.familynote.viewmodel.NoteSearchViewModel
 import java.util.*
 
 
-class SettingsAdapter(context : Context, items : ArrayList<Item>) : BaseAdapter() {
-    private var context : Context = context
+class SettingsAdapter(context : SettingsFragment, items : ArrayList<Item>) : BaseAdapter() {
+    private var context : SettingsFragment = context
     private var items : ArrayList<Item> = items
     private var itemTitle : TextView? = null
     private var itemSubtitle : TextView? = null
     private var calendarView : CalendarView? = null
     private var itemLayout : LinearLayout? = null
-    private var selectedDate : String = "Today"
+    private var selectedDate : String = CommonUtil.getTodayDate()
     private var divider : View? = null
     private var senderName = "All"
     private var receiverName = "All"
@@ -30,7 +33,8 @@ class SettingsAdapter(context : Context, items : ArrayList<Item>) : BaseAdapter(
     }
 
     override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+        val inflater = context.getMainActivity()?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         var convertview = p1
         if (items[p0].isSection()) {
             // if section header
@@ -49,6 +53,7 @@ class SettingsAdapter(context : Context, items : ArrayList<Item>) : BaseAdapter(
                     true -> selectedDate = "" + year + "-0" + (month + 1) + "-" + dayOfMonth
                     false -> selectedDate = "" + year + "-" + (month + 1) + "-" + dayOfMonth
                 }
+                context.setNoteFilter()
             }
 
             itemTitle?.text = items[p0].getTitle()
@@ -77,12 +82,12 @@ class SettingsAdapter(context : Context, items : ArrayList<Item>) : BaseAdapter(
             if (items.count() <= 8 && p0 == 3) {
                 showDivider()
             }
-            if (p0 == 0) {
-                itemSubtitle?.text = senderName
-            }
-            if (p0 == 1) {
-                itemSubtitle?.text = receiverName
-            }
+//            if (p0 == 1) {
+//                itemSubtitle?.text = senderName
+//            }
+//            if (p0 == 2) {
+//                itemSubtitle?.text = receiverName
+//            }
 
         }
 

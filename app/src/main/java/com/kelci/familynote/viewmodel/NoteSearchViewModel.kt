@@ -3,10 +3,11 @@ package com.kelci.familynote.viewmodel
 import android.arch.lifecycle.MutableLiveData
 import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.R
+import com.kelci.familynote.Utilities.CommonUtil
 import com.kelci.familynote.model.dataStructure.BaseResult
 import com.kelci.familynote.model.restService.ServiceUtil
 import com.kelci.familynote.viewmodel.base.BaseViewModel
-import com.kelci.familynote.viewmodel.base.SingleLiveEvent2
+import com.kelci.familynote.viewmodel.base.MultipleObserverLiveDate
 import restClient.RestHandler
 import restClient.RestParms
 import restClient.RestResult
@@ -14,18 +15,18 @@ import restClient.RestResult
 class NoteSearchViewModel : BaseViewModel() {
 
     var noteSearchResult = MutableLiveData<BaseResult>()
-    var noteSearchSender = SingleLiveEvent2<String>()
+    var noteSearchSender = MultipleObserverLiveDate<String>()
     var noteSearchReceiver = MutableLiveData<String>()
     var noteSearchDate = MutableLiveData<String>()
     var noteSearchKeywords : String = ""
     private var senderName : String = "All"
     private var receiverName : String = "All"
-    private var date : String = "Today"
+    private var date : String = CommonUtil.getTodayDate()
 
   init {
       noteSearchSender.value = "All"
       noteSearchReceiver.value = "All"
-      noteSearchDate.value = "Today"
+      noteSearchDate.value = CommonUtil.getTodayDate()
   }
 
     fun filterNote(sender : String, receiver : String, date : String) {

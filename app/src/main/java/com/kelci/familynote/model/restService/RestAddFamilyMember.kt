@@ -53,9 +53,12 @@ class RestAddFamilyMember : VolleyService() {
 
     override fun generatePostBody(): String {
 
-        if (FamilyNoteApplication.familyNoteApplication?.getKeyArraylist(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.member_list)) != null) {
-            val savedList = FamilyNoteApplication.familyNoteApplication?.getKeyArraylist(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.member_list)) as ArrayList<String>
-            familyMemberList.addAll(savedList)
+        //val savedList = FamilyNoteApplication.familyNoteApplication?.getKeyArraylist(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.member_list)) as ArrayList<String>
+
+        if (familyMemberList != null) {
+
+            //familyMemberList.addAll(savedList)
+            FamilyNoteApplication.familyNoteApplication?.putKeyArralylist(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.member_list), familyMemberList)
         }
         val userID = FamilyNoteApplication.familyNoteApplication?.getKeyValue(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.userID))
         val postBody = FamilyMemberPostBody(familyMemberList, userID)

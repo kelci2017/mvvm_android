@@ -4,7 +4,7 @@ import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.R
 import com.kelci.familynote.Utilities.CommonUtil
 import com.kelci.familynote.model.dataStructure.BaseResult
-import com.kelci.familynote.model.dataStructure.Note
+import com.kelci.familynote.model.dataStructure.NoteBody
 import org.json.JSONObject
 import restClient.RestResult
 import restClient.VolleyService
@@ -54,8 +54,8 @@ class RestSubmitNote : VolleyService() {
     }
 
     override fun generatePostBody(): String {
-        var postBody : Note? = null
-        postBody = Note(sender, receiver, noteBody, date, FamilyNoteApplication.familyNoteApplication!!.getKeyValue(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.userID)))
+        var postBody : NoteBody? = null
+        postBody = NoteBody(sender, receiver, noteBody, date, FamilyNoteApplication.familyNoteApplication!!.getKeyValue(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.userID)))
 
         return toJson(postBody)
     }

@@ -1,13 +1,12 @@
 package com.kelci.familynote.viewmodel
 
-import android.arch.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.R
 import com.kelci.familynote.model.dataStructure.BaseResult
 import com.kelci.familynote.model.restService.ServiceUtil
 import com.kelci.familynote.viewmodel.base.BaseViewModel
-import com.kelci.familynote.viewmodel.base.SingleLiveEvent2
+import com.kelci.familynote.viewmodel.base.MultipleObserverLiveDate
 import restClient.RestHandler
 import restClient.RestParms
 import restClient.RestResult
@@ -15,7 +14,7 @@ import restClient.RestTag
 
 class AddFamilyMemberViewModel  : BaseViewModel() {
 
-    var addFamilyMemberResult = SingleLiveEvent2<BaseResult>()
+    var addFamilyMemberResult = MultipleObserverLiveDate<BaseResult>()
 
     var familyMemberList : ArrayList<String>? = null
 

@@ -5,6 +5,8 @@ import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
 import android.os.Bundle
 import android.support.annotation.Nullable
+import android.support.v4.app.FragmentActivity
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +17,7 @@ import android.widget.ArrayAdapter
 import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.model.dataStructure.BaseResult
 import com.kelci.familynote.view.Base.BaseFragment
+import com.kelci.familynote.view.Base.RootActivity
 import com.kelci.familynote.viewmodel.AddFamilyMemberViewModel
 import com.kelci.familynote.viewmodel.NoteSearchViewModel
 
@@ -46,16 +49,10 @@ class FamilyMemberFragment : BaseFragment {
             familyMemberList.addAll(savedList)
         }
 
+       setListAndAdapter()
 
-        arrayAdapter = ArrayAdapter<String>(
-                activity!!.applicationContext,
-                R.layout.family_member_item,
-                familyMemberList)
-
-        listView?.adapter = arrayAdapter
-
-        addFamilyMemberModel = ViewModelProviders.of(this).get(AddFamilyMemberViewModel::class.java)
-        noteSearchModel = ViewModelProviders.of(this).get(NoteSearchViewModel::class.java)
+        addFamilyMemberModel = ViewModelProviders.of(getMainActivity() as FragmentActivity).get(AddFamilyMemberViewModel::class.java)
+        noteSearchModel = ViewModelProviders.of(getMainActivity() as FragmentActivity).get(NoteSearchViewModel::class.java)
 
         observeViewModel(addFamilyMemberModel)
 
@@ -90,10 +87,21 @@ class FamilyMemberFragment : BaseFragment {
                 //dismissProgressDialog()
                 if (addFamilyMemberResult!!.isSuccess()) {
                     familyMemberList = FamilyNoteApplication.familyNoteApplication?.getKeyArraylist(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.member_list)) as ArrayList<String>
+                    setListAndAdapter()
                     arrayAdapter?.notifyDataSetChanged()
                 }
             }
         })
+    }
+
+    private fun setListAndAdapter() {
+
+        arrayAdapter = ArrayAdapter<String>(
+                activity!!.applicationContext,
+                R.layout.family_member_item,
+                familyMemberList)
+
+        listView?.adapter = arrayAdapter
     }
 
 //    fun getFrom(from : String) {

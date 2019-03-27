@@ -1,5 +1,6 @@
 package com.kelci.familynote.Utilities
 
+import android.util.Log
 import java.util.*
 
 class CommonUtil {
@@ -15,7 +16,7 @@ class CommonUtil {
                 true -> date = "" + year + "-0" + (month + 1) + "-" + day
                 false -> date = "" + year + (month + 1) + "-" + day
             }
-
+            Log.i("today", "Today's date is: " + date)
             return date
         }
     }

@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentActivity
 import android.util.Log
 
 import android.view.LayoutInflater
@@ -37,33 +38,16 @@ class SettingsFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        rootView = inflater?.inflate(R.layout.fragment_settings, container, false)
+        rootView = inflater.inflate(R.layout.fragment_settings, container, false)
         listView = rootView?.findViewById(R.id.settings_list) as ListView
 
-
-        // Header
-        settingsList.add(SettingsSection("Settings") as Item)
-        // Items
-        settingsList.add(SettingsItem(getString(R.string.settings_sender), getString(R.string.settings_default)) as Item)
-        settingsList.add(SettingsItem(getString(R.string.settings_receiver), getString(R.string.settings_default)) as Item)
-        settingsList.add(SettingsItem(getString(R.string.settings_date), getString(R.string.settings_default_date)) as Item)
-        settingsList.add(SettingsItem(getString(R.string.settings_add_member), "") as Item)
-        settingsList.add(SettingsItem(getString(R.string.settings_logout), "") as Item)
-
-        // Header
-        settingsList.add(SettingsSection(getString(R.string.about_name)) as Item)
-        // Items
-        settingsList.add(SettingsItem(getString(R.string.settings_version_title), getString(R.string.settings_version)) as Item)
-        settingsAdapter = SettingsAdapter(activity!!.applicationContext, settingsList)
-        listView?.adapter = settingsAdapter
-        //setListOnClickListener()
-        listView?.divider = null
-
-        logoutModel = ViewModelProviders.of(this).get(LogoutViewModel::class.java)
-        noteSearchModel = ViewModelProviders.of(this).get(NoteSearchViewModel::class.java)
-        addFamilyMemberModel = ViewModelProviders.of(this).get(AddFamilyMemberViewModel::class.java)
+        logoutModel = ViewModelProviders.of(getMainActivity() as FragmentActivity).get(LogoutViewModel::class.java)
+        noteSearchModel = ViewModelProviders.of(getMainActivity() as FragmentActivity).get(NoteSearchViewModel::class.java)
+        addFamilyMemberModel = ViewModelProviders.of(getMainActivity() as FragmentActivity).get(AddFamilyMemberViewModel::class.java)
 
         observeViewModel()
+
+        listAndAdapterSetup()
 
         return rootView
     }
@@ -74,11 +58,31 @@ class SettingsFragment : BaseFragment() {
         setListOnClickListener()
     }
 
+    private fun listAndAdapterSetup() {
+        settingsList.clear()
+        // Header
+        settingsList.add(SettingsSection("Settings") as Item)
+        // Items
+        settingsList.add(SettingsItem(getString(R.string.settings_sender), noteSearchModel.noteSearchSender.value!!) as Item)
+        settingsList.add(SettingsItem(getString(R.string.settings_receiver), noteSearchModel.noteSearchReceiver.value!!) as Item)
+        settingsList.add(SettingsItem(getString(R.string.settings_date), noteSearchModel.noteSearchDate.value!!) as Item)
+        settingsList.add(SettingsItem(getString(R.string.settings_add_member), "") as Item)
+        settingsList.add(SettingsItem(getString(R.string.settings_logout), "") as Item)
+
+        // Header
+        settingsList.add(SettingsSection(getString(R.string.about_name)) as Item)
+        // Items
+        settingsList.add(SettingsItem(getString(R.string.settings_version_title), getString(R.string.settings_version)) as Item)
+        settingsAdapter = SettingsAdapter(this, settingsList)
+        listView?.adapter = settingsAdapter
+        //setListOnClickListener()
+        listView?.divider = null
+    }
     private fun setListOnClickListener() {
 
         listView?.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
 
-            val calendarView = view.calendarView
+            //val calendarView = view.calendarView
 
            //settingsAdapter?.selectDate(calendarView)
 
@@ -98,7 +102,7 @@ class SettingsFragment : BaseFragment() {
                         Log.i("SettingsFragment", "The settinglist count is: " + settingsList.count().toString())
                         if (settingsList.count() > 8) {
                             settingsList.removeAt(4)
-                            //settingsAdapter?.showDivider()
+//                            noteSearchModel.filterNote(settingsAdapter?.getSenderName()!!, settingsAdapter?.getReveiverName()!!, settingsAdapter?.getDate()!!)
                         } else {
                             settingsList.add(4, SettingsItem("", "") as Item)
                             //settingsAdapter?.hideDivider()
@@ -179,29 +183,23 @@ class SettingsFragment : BaseFragment() {
 
     private fun observeFilterViewModel(viewModel : NoteSearchViewModel) {
 
-        viewModel.noteSearchSender.observe(this, object : Observer<String> {
-            override fun onChanged(@Nullable sender: String?) {
-                settingsAdapter?.setSender(sender!!)
-                settingsAdapter?.notifyDataSetInvalidated()
-                noteSearchModel.filterNote(settingsAdapter?.getSenderName()!!, settingsAdapter?.getReveiverName()!!, settingsAdapter?.getDate()!!)
-                getMainActivity()?.showProgressDialog("Filtering...")
-            }
-        })
+        val senderObserver = Observer<String> { sender ->
+            filterByName()
+        }
 
-        viewModel.noteSearchReceiver.observe(this, object : Observer<String> {
-            override fun onChanged(@Nullable receiver: String?) {
-                settingsAdapter?.setReceiver(receiver!!)
-                settingsAdapter?.notifyDataSetInvalidated()
-                noteSearchModel.filterNote(settingsAdapter?.getSenderName()!!, settingsAdapter?.getReveiverName()!!, settingsAdapter?.getDate()!!)
-                getMainActivity()?.showProgressDialog("Filtering...")
-            }
-        })
+        val receiverObserver = Observer<String> { sender ->
+            filterByName()
+        }
 
-        viewModel.noteSearchResult.observe(this,  object : Observer<BaseResult> {
+        viewModel.noteSearchSender.observe(getMainActivity() as FragmentActivity, senderObserver)
+
+        viewModel.noteSearchReceiver.observe(getMainActivity() as FragmentActivity, receiverObserver)
+
+        viewModel.noteSearchResult.observe(getMainActivity() as FragmentActivity,  object : Observer<BaseResult> {
             override fun onChanged(@Nullable baseResult: BaseResult?) {
                 if (baseResult?.getResultCode() == 21) {
                     FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.token), null)
-                    noteSearchModel.filterNote(settingsAdapter?.getSenderName()!!, settingsAdapter?.getReveiverName()!!, settingsAdapter?.getDate()!!)
+                    //noteSearchModel.filterNote(settingsAdapter?.getSenderName()!!, settingsAdapter?.getReveiverName()!!, settingsAdapter?.getDate()!!)
                     return
                 }
                 dismissProgressDialog()
@@ -223,5 +221,17 @@ class SettingsFragment : BaseFragment() {
                 }
             }
         })
+    }
+
+    fun setNoteFilter() {
+        noteSearchModel.filterNote(noteSearchModel.noteSearchSender.value!!, noteSearchModel.noteSearchReceiver.value!!, noteSearchModel.noteSearchDate.value!!)
+        getMainActivity()?.showProgressDialog("Filtering...")
+    }
+
+    private fun filterByName() {
+        listAndAdapterSetup()
+        settingsAdapter?.notifyDataSetChanged()
+        noteSearchModel.filterNote(noteSearchModel.noteSearchSender.value!!, noteSearchModel.noteSearchReceiver.value!!, noteSearchModel.noteSearchDate.value!!)
+        getMainActivity()?.showProgressDialog("Filtering...")
     }
 }

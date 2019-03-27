@@ -123,7 +123,7 @@ open class RootActivity : AppCompatActivity() {
 
     fun errorHandler(message: String, title: String) {
         dismissProgressDialog()
-        showAlertBox(title, message)
+        showAlertBox(message, title)
     }
 
     fun validEmailPassword(email : EditText?, password : EditText?) : Boolean {

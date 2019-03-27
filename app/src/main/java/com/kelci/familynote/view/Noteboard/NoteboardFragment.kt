@@ -6,11 +6,14 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.support.annotation.Nullable
+import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.SearchView
 import android.text.TextUtils
 import android.util.Log
 import android.view.*
 import android.widget.*
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.R
 import com.kelci.familynote.Utilities.CommonUtil
@@ -35,13 +38,6 @@ class NoteboardFragment : BaseFragment() {
     private var searchEditText: EditText? = null
     private lateinit var noteSearchModel: NoteSearchViewModel
 
-    companion object {
-
-        fun newInstance(): NoteboardFragment {
-            return NoteboardFragment()
-        }
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         rootView = inflater.inflate(R.layout.fragment_noteboard, container, false)
@@ -52,15 +48,15 @@ class NoteboardFragment : BaseFragment() {
 
 //        noteList.add(NoteItem("Kelci", "Arwin", "2019-03-13", "This is a test note from kelci to arwin"))
 //        noteList.add(NoteItem("Kelci", "Alisa", "2019-03-13", "This is a test note from kelci to alisa"))
-        noteAdapter = NoteAdapter(activity!!.applicationContext, noteList)
-        noteListView?.adapter = noteAdapter
+//        noteAdapter = NoteAdapter(activity!!.applicationContext, noteList)
+//        noteListView?.adapter = noteAdapter
 
         setHasOptionsMenu(true)
 
-        noteSearchModel = ViewModelProviders.of(this).get(NoteSearchViewModel::class.java)
+        noteSearchModel = ViewModelProviders.of(getMainActivity() as FragmentActivity).get(NoteSearchViewModel::class.java)
         observeViewModel(noteSearchModel)
-
-        noteSearchModel.filterNote(getMainActivity()?.resources!!.getString(R.string.settings_default), getMainActivity()?.resources!!.getString(R.string.settings_default), CommonUtil.getTodayDate())
+//
+        noteSearchModel.filterNote(noteSearchModel.noteSearchSender.value!!, noteSearchModel.noteSearchReceiver.value!!, noteSearchModel.noteSearchDate.value!!)
 
         return rootView
     }
@@ -181,8 +177,17 @@ class NoteboardFragment : BaseFragment() {
                     getMainActivity()?.errorHandler(baseResult.getResultDesc().toString(), "Filter failed!")
                     return
                 }
+                val gson = Gson()
 
-                noteList = baseResult.getResultDesc() as ArrayList<Note>
+                val type = object : TypeToken<ArrayList<Note>>() {
+
+                }.type
+                val jsonText = gson.toJson(baseResult.getResultDesc())
+                noteList = gson.fromJson(jsonText, type)
+
+                //noteList = baseResult.getResultDesc() as ArrayList<Note>
+                noteAdapter = NoteAdapter(activity!!.applicationContext, noteList)
+                noteListView?.adapter = noteAdapter
                 noteAdapter?.notifyDataSetInvalidated()
             }
         })
