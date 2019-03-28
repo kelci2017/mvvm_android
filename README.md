@@ -20,6 +20,9 @@
 
 
 **Demo**
+
+![LoginScreenshot](https://github.com/kelci2017/mvvm_android/blob/screenshots/familynoteapp.gif)
+
 ![LoginScreenshot](https://github.com/kelci2017/mvvm_android/blob/screenshots/login.png)
 ![LoginScreenshot](https://github.com/kelci2017/mvvm_android/blob/screenshots/register.png)
 ![LoginScreenshot](https://github.com/kelci2017/mvvm_android/blob/screenshots/noetboard.png)
