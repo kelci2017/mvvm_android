@@ -14,10 +14,10 @@ import restClient.RestResult
 
 class NoteSearchViewModel : BaseViewModel() {
 
-    var noteSearchResult = MutableLiveData<BaseResult>()
+    var noteSearchResult = MultipleObserverLiveDate<BaseResult>()
     var noteSearchSender = MultipleObserverLiveDate<String>()
-    var noteSearchReceiver = MutableLiveData<String>()
-    var noteSearchDate = MutableLiveData<String>()
+    var noteSearchReceiver = MultipleObserverLiveDate<String>()
+    var noteSearchDate = MultipleObserverLiveDate<String>()
     var noteSearchKeywords : String = ""
     private var senderName : String = "All"
     private var receiverName : String = "All"

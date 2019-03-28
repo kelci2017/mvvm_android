@@ -173,21 +173,21 @@ class SettingsFragment : BaseFragment() {
 
     private fun observeFilterViewModel(viewModel : NoteSearchViewModel) {
 
-        val senderObserver = Observer<String> { sender ->
-            doFilter()
-        }
-
-        val receiverObserver = Observer<String> { sender ->
-            doFilter()
-        }
-
-        val dateObserver = Observer<String> { date ->
-            doFilter()
-        }
-
-        viewModel.noteSearchSender.observe(getMainActivity() as FragmentActivity, senderObserver)
-        viewModel.noteSearchReceiver.observe(getMainActivity() as FragmentActivity, receiverObserver)
-        viewModel.noteSearchDate.observe(getMainActivity() as FragmentActivity, dateObserver)
+        viewModel.noteSearchDate.observe(getMainActivity() as FragmentActivity, object : Observer<String> {
+            override fun onChanged(date: String?) {
+                doFilter()
+            }
+        })
+        viewModel.noteSearchSender.observe(getMainActivity() as FragmentActivity, object : Observer<String> {
+            override fun onChanged(sender: String?) {
+                doFilter()
+            }
+        })
+        viewModel.noteSearchReceiver.observe(getMainActivity() as FragmentActivity, object : Observer<String> {
+            override fun onChanged(receiver: String?) {
+                doFilter()
+            }
+        })
 
         viewModel.noteSearchResult.observe(getMainActivity() as FragmentActivity,  object : Observer<BaseResult> {
             override fun onChanged(@Nullable baseResult: BaseResult?) {
