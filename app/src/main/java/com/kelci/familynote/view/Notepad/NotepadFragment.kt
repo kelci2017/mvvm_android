@@ -81,11 +81,13 @@ class NotepadFragment : BaseFragment() {
     }
 
     private fun setSpinnerListener() {
+
         spinnerTo?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if (position > 0) {
                     receiver?.text = spinnerTo?.selectedItem.toString()
-                    view.visibility = View.GONE
+                    view?.visibility = View.GONE
                 }
             }
 
@@ -93,12 +95,11 @@ class NotepadFragment : BaseFragment() {
                 /*Do something if nothing selected*/
             }
         }
-
         spinnerFrom?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 if (position > 0) {
                     sender?.text = spinnerFrom?.selectedItem.toString()
-                    view.visibility = View.GONE
+                    view?.visibility = View.GONE
                 }
             }
 
@@ -126,11 +127,11 @@ class NotepadFragment : BaseFragment() {
                     showAlertBox("Note was submitted successfully.","Submitted")
 
                     val isToday = (noteSearchModel.noteSearchDate.value == getMainActivity()?.resources!!.getString(R.string.settings_default_date) || noteSearchModel.noteSearchDate.value == CommonUtil.getTodayDate())
-                    val sameSender = (noteSearchModel.noteSearchSender.value?.toLowerCase() == sender?.text.toString().toLowerCase())
-                    val sameReceiver = (noteSearchModel.noteSearchReceiver.value?.toLowerCase() == receiver?.text.toString().toLowerCase())
+                    val sameSender = (noteSearchModel.noteSearchSender.value?.toLowerCase() == sender?.text.toString().toLowerCase() || getMainActivity()?.resources!!.getString(R.string.settings_default) == noteSearchModel.noteSearchSender.value)
+                    val sameReceiver = (noteSearchModel.noteSearchReceiver.value?.toLowerCase() == receiver?.text.toString().toLowerCase() || getMainActivity()?.resources!!.getString(R.string.settings_default) == noteSearchModel.noteSearchReceiver.value)
 
                     if (isToday && sameSender && sameReceiver) {
-                        noteSearchModel.filterNote(getMainActivity()?.resources!!.getString(R.string.settings_default), getMainActivity()?.resources!!.getString(R.string.settings_default), getMainActivity()?.resources!!.getString(R.string.settings_default_date))
+                        noteSearchModel.filterNote(getMainActivity()?.resources!!.getString(R.string.settings_default), getMainActivity()?.resources!!.getString(R.string.settings_default), CommonUtil.getTodayDate())
                     }
 
                     sender?.text = ""
@@ -149,8 +150,12 @@ class NotepadFragment : BaseFragment() {
             override fun onChanged(@Nullable addFamilyMemberResult: BaseResult?) {
                 //dismissProgressDialog()
                 if (addFamilyMemberResult!!.isSuccess()) {
-                    familyMemberList = FamilyNoteApplication.familyNoteApplication?.getKeyArraylist(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.member_list)) as ArrayList<String>
+                    val familyMemberListNew = FamilyNoteApplication.familyNoteApplication?.getKeyArraylist(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.member_list)) as ArrayList<String>
+                    familyMemberList.clear()
+                    familyMemberList.addAll(firstEmptyMember)
+                    familyMemberList.addAll(familyMemberListNew)
                     setListAndAdapter()
+                    setSpinnerListener()
                     spinnerAdapter?.notifyDataSetChanged()
                 }
             }
@@ -158,17 +163,18 @@ class NotepadFragment : BaseFragment() {
     }
 
     private fun setListAndAdapter() {
+
         spinnerAdapter = object : ArrayAdapter<String>(activity!!.applicationContext, R.layout.spinner_item, familyMemberList) {
             override fun getDropDownView(position: Int, convertView: View?,
                                          parent: ViewGroup): View {
                 val view = super.getDropDownView(position, convertView, parent)
                 val tv = view as TextView
                 if (position == 0) {
-                    var params = tv.layoutParams
+                    val params = tv.layoutParams
                     params.height = 10
                     tv.layoutParams = params
                 } else {
-                    var params = tv.layoutParams
+                    val params = tv.layoutParams
                     params.height = 150
                     tv.layoutParams = params
                 }

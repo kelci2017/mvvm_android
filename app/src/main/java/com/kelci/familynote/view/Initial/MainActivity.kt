@@ -34,6 +34,7 @@ class MainActivity : RootActivity() {
         viewPager = findViewById<ViewPager>(R.id.pager) as ViewPager
 
         pagerAdapter = SettingsPagerAdapter(supportFragmentManager, tabLayout!!.tabCount)
+        viewPager?.offscreenPageLimit = 2
         viewPager!!.adapter = pagerAdapter
         //tab_layout?.setupWithViewPager(pager)
         setSupportActionBar(findViewById(R.id.my_toolbar))

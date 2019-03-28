@@ -16,12 +16,10 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.R
-import com.kelci.familynote.Utilities.CommonUtil
 import com.kelci.familynote.model.dataStructure.BaseResult
 import com.kelci.familynote.model.dataStructure.Note
 import com.kelci.familynote.view.Base.BaseFragment
 import com.kelci.familynote.view.Base.RootActivity
-import com.kelci.familynote.view.Settings.NoteAdapter
 import com.kelci.familynote.viewmodel.NoteSearchViewModel
 
 class NoteboardFragment : BaseFragment() {
@@ -46,16 +44,11 @@ class NoteboardFragment : BaseFragment() {
         localSearchRadioButton = rootView?.findViewById(R.id.local_search)
         globalSearchRadioButton = rootView?.findViewById(R.id.global_search)
 
-//        noteList.add(NoteItem("Kelci", "Arwin", "2019-03-13", "This is a test note from kelci to arwin"))
-//        noteList.add(NoteItem("Kelci", "Alisa", "2019-03-13", "This is a test note from kelci to alisa"))
-//        noteAdapter = NoteAdapter(activity!!.applicationContext, noteList)
-//        noteListView?.adapter = noteAdapter
-
         setHasOptionsMenu(true)
 
         noteSearchModel = ViewModelProviders.of(getMainActivity() as FragmentActivity).get(NoteSearchViewModel::class.java)
         observeViewModel(noteSearchModel)
-//
+
         noteSearchModel.filterNote(noteSearchModel.noteSearchSender.value!!, noteSearchModel.noteSearchReceiver.value!!, noteSearchModel.noteSearchDate.value!!)
 
         return rootView
@@ -129,13 +122,6 @@ class NoteboardFragment : BaseFragment() {
                 }
             })
 
-            //restore search text
-//            if (savedFilterStr != null && savedFilterStr?.length > 0) {
-//                searchItem?.expandActionView()
-//                searchEditText?.text = savedFilterStr
-//                clearSearchViewFocus()
-//            }
-
             searchView?.setOnQueryTextFocusChangeListener(object : View.OnFocusChangeListener {
                 override fun onFocusChange(v: View, hasFocus: Boolean) {
                     if (!hasFocus) {
@@ -185,10 +171,9 @@ class NoteboardFragment : BaseFragment() {
                 val jsonText = gson.toJson(baseResult.getResultDesc())
                 noteList = gson.fromJson(jsonText, type)
 
-                //noteList = baseResult.getResultDesc() as ArrayList<Note>
                 noteAdapter = NoteAdapter(activity!!.applicationContext, noteList)
                 noteListView?.adapter = noteAdapter
-                noteAdapter?.notifyDataSetInvalidated()
+                noteAdapter?.notifyDataSetChanged()
             }
         })
     }

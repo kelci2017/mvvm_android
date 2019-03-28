@@ -21,8 +21,6 @@ class SettingsAdapter(context : SettingsFragment, items : ArrayList<Item>) : Bas
     private var itemLayout : LinearLayout? = null
     private var selectedDate : String = CommonUtil.getTodayDate()
     private var divider : View? = null
-    private var senderName = "All"
-    private var receiverName = "All"
 
     override fun getCount(): Int {
         return items.count()
@@ -53,7 +51,8 @@ class SettingsAdapter(context : SettingsFragment, items : ArrayList<Item>) : Bas
                     true -> selectedDate = "" + year + "-0" + (month + 1) + "-" + dayOfMonth
                     false -> selectedDate = "" + year + "-" + (month + 1) + "-" + dayOfMonth
                 }
-                context.setNoteFilter()
+
+                context.setSelectedDate(selectedDate)
             }
 
             itemTitle?.text = items[p0].getTitle()
@@ -72,7 +71,10 @@ class SettingsAdapter(context : SettingsFragment, items : ArrayList<Item>) : Bas
             }
 
             if (p0 == 3) {
-                itemSubtitle?.text = selectedDate
+                if (items[p0].getSubtitle() == CommonUtil.getTodayDate()) {
+                    itemSubtitle?.text = context.getMainActivity()?.resources!!.getString(R.string.settings_default_date)
+                }
+                //itemSubtitle?.text = selectedDate
             }
 
             if (items.count() > 8 && p0 == 3) {
@@ -82,12 +84,6 @@ class SettingsAdapter(context : SettingsFragment, items : ArrayList<Item>) : Bas
             if (items.count() <= 8 && p0 == 3) {
                 showDivider()
             }
-//            if (p0 == 1) {
-//                itemSubtitle?.text = senderName
-//            }
-//            if (p0 == 2) {
-//                itemSubtitle?.text = receiverName
-//            }
 
         }
 
@@ -123,25 +119,5 @@ class SettingsAdapter(context : SettingsFragment, items : ArrayList<Item>) : Bas
     override fun getItemId(p0: Int): Long {
 
         return p0.toLong()
-    }
-
-    fun setSender(name : String) {
-        senderName = name
-    }
-
-    fun setReceiver(name : String) {
-        receiverName = name
-    }
-
-    fun getSenderName() : String{
-        return senderName
-    }
-
-    fun getReveiverName() : String {
-        return receiverName
-    }
-
-    fun getDate() : String {
-        return selectedDate
     }
 }

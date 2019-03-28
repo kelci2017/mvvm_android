@@ -1,4 +1,4 @@
-package com.kelci.familynote.view.Settings
+package com.kelci.familynote.view.Noteboard
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -37,7 +37,7 @@ class NoteAdapter(context : Context, items : ArrayList<Note>) : BaseAdapter() {
 
         sender.text = items[p0].getFromWhom()
         receiver.text = items[p0].getToWhom()
-        date.text = items[p0].getCreated()
+        date.text = items[p0].getCreated().substring(0,10)
         noteBody.text = items[p0].getNotebody()
         noteIcon.setBackgroundResource(R.drawable.ic_noteimage)
 

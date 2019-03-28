@@ -60,31 +60,23 @@ class SettingsFragment : BaseFragment() {
 
     private fun listAndAdapterSetup() {
         settingsList.clear()
-        // Header
+
         settingsList.add(SettingsSection("Settings") as Item)
-        // Items
         settingsList.add(SettingsItem(getString(R.string.settings_sender), noteSearchModel.noteSearchSender.value!!) as Item)
         settingsList.add(SettingsItem(getString(R.string.settings_receiver), noteSearchModel.noteSearchReceiver.value!!) as Item)
         settingsList.add(SettingsItem(getString(R.string.settings_date), noteSearchModel.noteSearchDate.value!!) as Item)
         settingsList.add(SettingsItem(getString(R.string.settings_add_member), "") as Item)
         settingsList.add(SettingsItem(getString(R.string.settings_logout), "") as Item)
 
-        // Header
         settingsList.add(SettingsSection(getString(R.string.about_name)) as Item)
-        // Items
         settingsList.add(SettingsItem(getString(R.string.settings_version_title), getString(R.string.settings_version)) as Item)
         settingsAdapter = SettingsAdapter(this, settingsList)
         listView?.adapter = settingsAdapter
-        //setListOnClickListener()
         listView?.divider = null
     }
     private fun setListOnClickListener() {
 
         listView?.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-
-            //val calendarView = view.calendarView
-
-           //settingsAdapter?.selectDate(calendarView)
 
             val selectedItem = parent.getItemAtPosition(position) as Item
                 when(selectedItem.getTitle()) {
@@ -102,10 +94,8 @@ class SettingsFragment : BaseFragment() {
                         Log.i("SettingsFragment", "The settinglist count is: " + settingsList.count().toString())
                         if (settingsList.count() > 8) {
                             settingsList.removeAt(4)
-//                            noteSearchModel.filterNote(settingsAdapter?.getSenderName()!!, settingsAdapter?.getReveiverName()!!, settingsAdapter?.getDate()!!)
                         } else {
                             settingsList.add(4, SettingsItem("", "") as Item)
-                            //settingsAdapter?.hideDivider()
                         }
                         settingsAdapter?.notifyDataSetChanged()
                     }
@@ -184,16 +174,20 @@ class SettingsFragment : BaseFragment() {
     private fun observeFilterViewModel(viewModel : NoteSearchViewModel) {
 
         val senderObserver = Observer<String> { sender ->
-            filterByName()
+            doFilter()
         }
 
         val receiverObserver = Observer<String> { sender ->
-            filterByName()
+            doFilter()
+        }
+
+        val dateObserver = Observer<String> { date ->
+            doFilter()
         }
 
         viewModel.noteSearchSender.observe(getMainActivity() as FragmentActivity, senderObserver)
-
         viewModel.noteSearchReceiver.observe(getMainActivity() as FragmentActivity, receiverObserver)
+        viewModel.noteSearchDate.observe(getMainActivity() as FragmentActivity, dateObserver)
 
         viewModel.noteSearchResult.observe(getMainActivity() as FragmentActivity,  object : Observer<BaseResult> {
             override fun onChanged(@Nullable baseResult: BaseResult?) {
@@ -223,14 +217,13 @@ class SettingsFragment : BaseFragment() {
         })
     }
 
-    fun setNoteFilter() {
-        noteSearchModel.filterNote(noteSearchModel.noteSearchSender.value!!, noteSearchModel.noteSearchReceiver.value!!, noteSearchModel.noteSearchDate.value!!)
-        getMainActivity()?.showProgressDialog("Filtering...")
+    fun setSelectedDate(selectedDate : String) {
+        noteSearchModel.noteSearchDate.value = selectedDate
     }
 
-    private fun filterByName() {
+    private fun doFilter() {
         listAndAdapterSetup()
-        settingsAdapter?.notifyDataSetChanged()
+        //settingsAdapter?.notifyDataSetChanged()
         noteSearchModel.filterNote(noteSearchModel.noteSearchSender.value!!, noteSearchModel.noteSearchReceiver.value!!, noteSearchModel.noteSearchDate.value!!)
         getMainActivity()?.showProgressDialog("Filtering...")
     }
