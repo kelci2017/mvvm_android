@@ -1,14 +1,12 @@
 package com.kelci.familynote.model.restService
 
-import android.util.Log
-import com.google.gson.Gson
 import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.R
 import com.kelci.familynote.model.dataStructure.TokenSessionRestResult
 import com.kelci.familynote.model.dataStructure.UserPostBody
 import org.json.JSONObject
-import restClient.RestResult
-import restClient.VolleyService
+import restclient.RestResult
+import restclient.VolleyService
 
 class RestLogin : VolleyService() {
 

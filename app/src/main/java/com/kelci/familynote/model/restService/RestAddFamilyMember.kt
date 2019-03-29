@@ -6,8 +6,8 @@ import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.R
 import com.kelci.familynote.model.dataStructure.BaseResult
 import org.json.JSONObject
-import restClient.RestResult
-import restClient.VolleyService
+import restclient.RestResult
+import restclient.VolleyService
 
 class RestAddFamilyMember : VolleyService() {
 

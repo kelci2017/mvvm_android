@@ -5,8 +5,8 @@ import com.kelci.familynote.R
 import com.kelci.familynote.model.dataStructure.TokenSessionRestResult
 import com.kelci.familynote.model.dataStructure.UserPostBody
 import org.json.JSONObject
-import restClient.RestResult
-import restClient.VolleyService
+import restclient.RestResult
+import restclient.VolleyService
 
 class RestRegister : VolleyService(){
     var email : String = ""

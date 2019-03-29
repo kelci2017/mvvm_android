@@ -6,9 +6,9 @@ import com.kelci.familynote.R
 import com.kelci.familynote.model.dataStructure.BaseResult
 import com.kelci.familynote.model.restService.ServiceUtil
 import com.kelci.familynote.viewmodel.base.BaseViewModel
-import restClient.RestHandler
-import restClient.RestResult
-import restClient.RestTag
+import restclient.RestHandler
+import restclient.RestResult
+import restclient.RestTag
 
 class LogoutViewModel : BaseViewModel() {
 

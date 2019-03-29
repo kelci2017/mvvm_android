@@ -5,8 +5,8 @@ import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.R
 import com.kelci.familynote.model.dataStructure.TokenSessionRestResult
 import com.kelci.familynote.model.restService.ServiceUtil
-import restClient.RestHandler
-import restClient.RestResult
+import restclient.RestHandler
+import restclient.RestResult
 
 open class BaseViewModel : ViewModel() {
 

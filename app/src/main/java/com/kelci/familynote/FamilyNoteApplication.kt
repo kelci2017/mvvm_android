@@ -1,19 +1,17 @@
 package com.kelci.familynote
 
 import android.app.Application
-import android.content.Context
 import net.grandcentrix.tray.AppPreferences
-import restClient.VolleyService
+import restclient.VolleyService
 import android.app.Activity
-import android.R.attr.data
 import android.content.SharedPreferences
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.kelci.familynote.model.dataStructure.BaseResult
 import com.kelci.familynote.model.restService.ServiceUtil
-import restClient.RestHandler
-import restClient.RestResult
+import restclient.RestHandler
+import restclient.RestResult
 
 
 class FamilyNoteApplication : Application() {
@@ -23,11 +21,8 @@ class FamilyNoteApplication : Application() {
     private val gson = Gson()
 
     companion object {
-        //var context: Context? = null
         var familyNoteApplication: FamilyNoteApplication? = null
     }
-
-
 
     override fun onCreate() {
         super.onCreate()
@@ -90,7 +85,7 @@ class FamilyNoteApplication : Application() {
                 val baseResult : BaseResult? = result?.resultObject as? BaseResult
 
                 if (baseResult != null && baseResult.isSuccess()) {
-                    val familyMemberList : ArrayList<String>? = baseResult.getResultDesc() as ArrayList<String>
+                    val familyMemberList : ArrayList<String>? = baseResult.resultDesc as ArrayList<String>
                     if (familyMemberList != null) {
                         putKeyArralylist(resources.getString(R.string.member_list), familyMemberList)
                     }
@@ -98,5 +93,4 @@ class FamilyNoteApplication : Application() {
             }
         }, false)
     }
-
 }

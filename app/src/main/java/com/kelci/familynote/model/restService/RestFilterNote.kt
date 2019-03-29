@@ -2,11 +2,11 @@ package com.kelci.familynote.model.restService
 
 import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.R
-import com.kelci.familynote.Utilities.CommonUtil
+import com.kelci.familynote.utilities.CommonUtil
 import com.kelci.familynote.model.dataStructure.BaseResult
 import org.json.JSONObject
-import restClient.RestResult
-import restClient.VolleyService
+import restclient.RestResult
+import restclient.VolleyService
 
 class RestFilterNote : VolleyService() {
     var date : String = CommonUtil.getTodayDate()

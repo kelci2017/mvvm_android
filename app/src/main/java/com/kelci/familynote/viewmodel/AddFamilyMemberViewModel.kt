@@ -7,10 +7,10 @@ import com.kelci.familynote.model.dataStructure.BaseResult
 import com.kelci.familynote.model.restService.ServiceUtil
 import com.kelci.familynote.viewmodel.base.BaseViewModel
 import com.kelci.familynote.viewmodel.base.MultipleObserverLiveDate
-import restClient.RestHandler
-import restClient.RestParms
-import restClient.RestResult
-import restClient.RestTag
+import restclient.RestHandler
+import restclient.RestParms
+import restclient.RestResult
+import restclient.RestTag
 
 class AddFamilyMemberViewModel  : BaseViewModel() {
 

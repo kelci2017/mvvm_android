@@ -1,16 +1,15 @@
 package com.kelci.familynote.viewmodel
 
-import android.arch.lifecycle.MutableLiveData
 import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.R
-import com.kelci.familynote.Utilities.CommonUtil
+import com.kelci.familynote.utilities.CommonUtil
 import com.kelci.familynote.model.dataStructure.BaseResult
 import com.kelci.familynote.model.restService.ServiceUtil
 import com.kelci.familynote.viewmodel.base.BaseViewModel
 import com.kelci.familynote.viewmodel.base.MultipleObserverLiveDate
-import restClient.RestHandler
-import restClient.RestParms
-import restClient.RestResult
+import restclient.RestHandler
+import restclient.RestParms
+import restclient.RestResult
 
 class NoteSearchViewModel : BaseViewModel() {
 

@@ -1,8 +1,8 @@
 package com.kelci.familynote.model.restService
 
-import restClient.RestHandler
-import restClient.RestParms
-import restClient.RestTag
+import restclient.RestHandler
+import restclient.RestParms
+import restclient.RestTag
 
 class ServiceUtil {
 
