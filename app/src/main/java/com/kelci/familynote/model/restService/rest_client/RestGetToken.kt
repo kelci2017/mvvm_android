@@ -1,4 +1,4 @@
-package com.kelci.familynote.model.restService
+package com.kelci.familynote.model.restService.rest_client
 
 import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.R

@@ -19,5 +19,10 @@ class CommonUtil {
             Log.i("today", "Today's date is: " + date)
             return date
         }
+
+        fun generateRandom(): Int {
+            val random = Random()
+            return random.nextInt(9999 - 1000) + 1000
+        }
     }
 }

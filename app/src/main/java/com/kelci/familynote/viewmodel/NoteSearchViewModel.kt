@@ -4,7 +4,7 @@ import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.R
 import com.kelci.familynote.utilities.CommonUtil
 import com.kelci.familynote.model.dataStructure.BaseResult
-import com.kelci.familynote.model.restService.ServiceUtil
+import com.kelci.familynote.model.restService.rest_client.ServiceUtil
 import com.kelci.familynote.viewmodel.base.BaseViewModel
 import com.kelci.familynote.viewmodel.base.MultipleObserverLiveDate
 import restclient.RestHandler

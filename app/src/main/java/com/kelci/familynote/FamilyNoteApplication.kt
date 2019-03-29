@@ -4,12 +4,15 @@ import android.app.Application
 import net.grandcentrix.tray.AppPreferences
 import restclient.VolleyService
 import android.app.Activity
+import android.content.Intent
 import android.content.SharedPreferences
 import android.util.Log
+import com.google.firebase.FirebaseApp
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.kelci.familynote.model.dataStructure.BaseResult
-import com.kelci.familynote.model.restService.ServiceUtil
+import com.kelci.familynote.model.restService.rest_client.ServiceUtil
+import com.kelci.familynote.model.restService.fcm.RegistrationIntentService
 import restclient.RestHandler
 import restclient.RestResult
 
@@ -34,6 +37,7 @@ class FamilyNoteApplication : Application() {
         if (getKeyValue(resources.getString(R.string.sessionid)) != null && getKeyValue(resources.getString(R.string.token)) != null) {
             getFamilyMemberList()
         }
+        FirebaseApp.initializeApp(this)
     }
 
     fun putKeyValue(key: String?, value: String?) {
@@ -92,5 +96,10 @@ class FamilyNoteApplication : Application() {
                 }
             }
         }, false)
+    }
+
+    fun initPushNotifications() {
+            val intent = Intent(this, RegistrationIntentService::class.java)
+            startService(intent)
     }
 }

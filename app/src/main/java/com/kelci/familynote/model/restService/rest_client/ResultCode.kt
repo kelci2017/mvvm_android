@@ -1,4 +1,4 @@
-package com.kelci.familynote.model.restService
+package com.kelci.familynote.model.restService.rest_client
 
 enum class ResultCode(val resultCode : Int, val resultDesc : String) {
 

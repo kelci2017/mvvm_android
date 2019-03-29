@@ -1,4 +1,4 @@
-package com.kelci.familynote.model.restService
+package com.kelci.familynote.model.restService.rest_client
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken

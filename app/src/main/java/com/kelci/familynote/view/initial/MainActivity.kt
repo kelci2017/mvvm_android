@@ -10,7 +10,7 @@ import com.kelci.familynote.R
 import android.widget.TextView
 import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.model.dataStructure.BaseResult
-import com.kelci.familynote.model.restService.ServiceUtil
+import com.kelci.familynote.model.restService.rest_client.ServiceUtil
 import com.kelci.familynote.view.base.RootActivity
 import com.kelci.familynote.view.settings.SettingsFragment
 import com.kelci.familynote.view.settings.SettingsPagerAdapter
@@ -64,7 +64,7 @@ class MainActivity : RootActivity() {
 
         })
 
-        //getFamilyMemberList()
+        FamilyNoteApplication.familyNoteApplication?.initPushNotifications()
     }
 
     override fun onBackPressed() {

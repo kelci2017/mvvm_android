@@ -4,7 +4,7 @@ import android.arch.lifecycle.ViewModel
 import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.R
 import com.kelci.familynote.model.dataStructure.TokenSessionRestResult
-import com.kelci.familynote.model.restService.ServiceUtil
+import com.kelci.familynote.model.restService.rest_client.ServiceUtil
 import restclient.RestHandler
 import restclient.RestResult
 

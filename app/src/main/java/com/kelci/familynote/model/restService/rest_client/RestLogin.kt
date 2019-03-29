@@ -1,4 +1,4 @@
-package com.kelci.familynote.model.restService
+package com.kelci.familynote.model.restService.rest_client
 
 import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.R
@@ -8,7 +8,8 @@ import org.json.JSONObject
 import restclient.RestResult
 import restclient.VolleyService
 
-class RestRegister : VolleyService(){
+class RestLogin : VolleyService() {
+
     var email : String = ""
     var password : String = ""
 
@@ -18,12 +19,13 @@ class RestRegister : VolleyService(){
     }
 
     override fun getUrl(): String {
-        return String.format(FamilyNoteApplication.familyNoteApplication!!.getString(R.string.register),FamilyNoteApplication.familyNoteApplication!!.getString(R.string.server_url))
+
+        return String.format(FamilyNoteApplication.familyNoteApplication!!.getString(R.string.login), FamilyNoteApplication.familyNoteApplication!!.getString(R.string.server_url))
     }
 
     override fun initialize(): RestResult<Any> {
-        email = getParameter("email") as String
-        password = getParameter("password") as String
+        email = getParameter(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.user_name)) as String
+        password = getParameter(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.user_password)) as String
 
         return RestResult()
     }

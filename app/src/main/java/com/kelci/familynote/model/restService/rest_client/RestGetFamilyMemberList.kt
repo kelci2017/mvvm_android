@@ -1,4 +1,4 @@
-package com.kelci.familynote.model.restService
+package com.kelci.familynote.model.restService.rest_client
 
 import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.R
@@ -7,7 +7,7 @@ import org.json.JSONObject
 import restclient.RestResult
 import restclient.VolleyService
 
-class RestLogout : VolleyService() {
+class RestGetFamilyMemberList : VolleyService() {
 
     override fun parseResult(result: JSONObject?): RestResult<BaseResult> {
         val baseResult = fromJson<BaseResult>(result.toString(), BaseResult::class.java)
@@ -16,7 +16,7 @@ class RestLogout : VolleyService() {
 
     override fun getUrl(): String {
 
-        val logoutString = FamilyNoteApplication.familyNoteApplication!!.getString(R.string.logout)
+        val logoutString = FamilyNoteApplication.familyNoteApplication!!.getString(R.string.get_family_members)
         val serverURL = FamilyNoteApplication.familyNoteApplication!!.getString(R.string.server_url)
         val sessionid = FamilyNoteApplication.familyNoteApplication!!.getKeyValue(FamilyNoteApplication.familyNoteApplication!!.getString(R.string.sessionid))
 

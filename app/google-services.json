@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "649639669914",
+    "firebase_url": "https://familynoteapp-fe258.firebaseio.com",
+    "project_id": "familynoteapp-fe258",
+    "storage_bucket": "familynoteapp-fe258.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:649639669914:android:b8b9b75a0191eb43",
+        "android_client_info": {
+          "package_name": "com.kelci.familynote"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "649639669914-sbi8cph9hsha425sgn6mfrss48uh3bf7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXDfzjDwXMzy5xsoXvPs7SjtRAlNwY2-U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
