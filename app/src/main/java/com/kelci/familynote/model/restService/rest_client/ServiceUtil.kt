@@ -52,6 +52,11 @@ class ServiceUtil {
         fun searchNote(restTag: RestTag?, restParms: RestParms?, restHandler: RestHandler<Any>?, useCache: Boolean) {
             RestSearchNote().call(restTag, restParms, restHandler, useCache)
         }
+
+        @Synchronized
+        fun registerNotification(restTag: RestTag?, restParms: RestParms?, restHandler: RestHandler<Any>?, useCache: Boolean) {
+            RestRegisterNotification().call(restTag, restParms, restHandler, useCache)
+        }
     }
 
 }

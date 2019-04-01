@@ -8,10 +8,11 @@
     <string name="logout">%1$sauth/sign_out?sessionid=%2$s</string>
     <string name="register">%1$sauth/register</string>
     <string name="add_family_member">%1$sauth/familyMembers?sessionid=%2$s</string>
-    <string name="submit_note">%1$snotes/create?sessionid=%2$s</string>
+    <string name="submit_note">%1$snotes/create?sessionid=%2$s&amp;deviceid=%3$s</string>
     <string name="note_filter">%1$snotes/search?from=%2$s&amp;to=%3$s&amp;date=%4$s&amp;sessionid=%5$s</string>
     <string name="get_token">%1$sauth/getToken?sessionid=%2$s</string>
     <string name="get_family_members">%1$sauth/familyMembers?sessionid=%2$s</string>
     <string name="note_search">%1$snotes/globalSearch/%2$s?sessionid=%3$s</string>
+    <string name="notification_register">%1$sauth/registerNotification?sessionid=%2$s</string>
 
 </resources>

@@ -41,6 +41,7 @@ class NotepadFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
+        familyMemberList.clear()
         rootView = inflater.inflate(R.layout.fragment_notepad, container, false)
         fromlist = rootView?.findViewById(R.id.fromlist) as Spinner
         tolist = rootView?.findViewById(R.id.tolist) as Spinner

@@ -13,6 +13,7 @@ import com.google.gson.reflect.TypeToken
 import com.kelci.familynote.model.dataStructure.BaseResult
 import com.kelci.familynote.model.restService.rest_client.ServiceUtil
 import com.kelci.familynote.model.restService.fcm.RegistrationIntentService
+import com.kelci.familynote.utilities.CommonUtil
 import restclient.RestHandler
 import restclient.RestResult
 
@@ -23,8 +24,11 @@ class FamilyNoteApplication : Application() {
     private var sharedPref : SharedPreferences? = null
     private val gson = Gson()
 
+
     companion object {
         var familyNoteApplication: FamilyNoteApplication? = null
+        val FAMILYNOTE_TAG = "FamilyNoteApp"
+        val app_unique_id = "app_unique_id"
     }
 
     override fun onCreate() {
@@ -101,5 +105,18 @@ class FamilyNoteApplication : Application() {
     fun initPushNotifications() {
             val intent = Intent(this, RegistrationIntentService::class.java)
             startService(intent)
+    }
+
+    fun generateAppUniqueId(): String {
+        var appUniqueId = CommonUtil.getStringSharePreference(FAMILYNOTE_TAG, app_unique_id, "")
+        if (appUniqueId == null || appUniqueId == "") {
+            appUniqueId = getAppPackageName() + "_" + hashCode()
+            CommonUtil.saveStringSharePreference(FAMILYNOTE_TAG, app_unique_id, appUniqueId)
+        }
+        return appUniqueId
+    }
+
+    fun getAppPackageName(): String {
+        return BuildConfig.APPLICATION_ID
     }
 }

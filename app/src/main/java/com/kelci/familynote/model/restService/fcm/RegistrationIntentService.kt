@@ -9,8 +9,14 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.InstanceIdResult
 import com.google.firebase.messaging.FirebaseMessaging
+import com.kelci.familynote.model.dataStructure.BaseResult
 import java.io.IOException
 import org.apache.http.HttpResponse
+import restclient.RestHandler
+import restclient.RestParms
+import restclient.RestResult
+import restclient.RestTag
+import com.kelci.familynote.model.restService.rest_client.ServiceUtil
 
 
 class RegistrationIntentService : IntentService(TAG) {
@@ -64,18 +70,30 @@ class RegistrationIntentService : IntentService(TAG) {
     private inner class SendRegistrationIdTask(private val mRegId: String?) : AsyncTask<String, Void, HttpResponse>() {
 
         override fun doInBackground(vararg regIds: String): HttpResponse? {
+            var restHandler : RestHandler<BaseResult>? = null
+            restHandler as RestHandler<Any>?
 
-            //Modified by Jason on 06/23/2017. Use new UPNS webservice(token).
-//            ServiceUtil.registerNotification(token, user_id, object : RestHandler() {
-//                fun onReturn(result: RestResult) {
-//                    if (result.isSuccess()) {
-//                        //
-//                    } else {
-//                        Log.i(javaClass.name, "Error message for registerNotification:" + result.getErrorDesc())
-//                    }
-//                }
-//            })
+            var restParams : RestParms = RestParms()
 
+            restParams.setParams("token", token)
+
+            var restTag = RestTag()
+            restTag.tag = "RegisterNotification"
+
+            ServiceUtil.registerNotification(restTag,restParams,object : RestHandler<Any>(){
+                override fun onReturn(result: RestResult<Any>?) {
+
+                    val baseResult : BaseResult? = result?.resultObject as? BaseResult
+
+                    if (baseResult != null) {
+                        if (baseResult.isSuccess()) {
+                            Log.i(javaClass.name, "the register notification is success")
+                        } else {
+                            Log.i(javaClass.name, "Error message for registerNotification:" + baseResult.resultDesc)
+                        }
+                    }
+                }
+            }, false)
             return null
         }
 

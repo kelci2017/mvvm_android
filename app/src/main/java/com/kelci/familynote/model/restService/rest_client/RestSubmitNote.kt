@@ -1,6 +1,9 @@
 package com.kelci.familynote.model.restService.rest_client
 
+import android.util.Log
 import com.kelci.familynote.FamilyNoteApplication
+import com.kelci.familynote.FamilyNoteApplication.Companion.FAMILYNOTE_TAG
+import com.kelci.familynote.FamilyNoteApplication.Companion.app_unique_id
 import com.kelci.familynote.R
 import com.kelci.familynote.utilities.CommonUtil
 import com.kelci.familynote.model.dataStructure.BaseResult
@@ -26,8 +29,11 @@ class RestSubmitNote : VolleyService() {
         val submitNoteString = FamilyNoteApplication.familyNoteApplication!!.getString(R.string.submit_note)
         val serverURL = FamilyNoteApplication.familyNoteApplication!!.getString(R.string.server_url)
         val sessionid = FamilyNoteApplication.familyNoteApplication!!.getKeyValue(FamilyNoteApplication.familyNoteApplication!!.getString(R.string.sessionid))
+        val deviceid = CommonUtil.getStringSharePreference(FAMILYNOTE_TAG, app_unique_id, "")
 
-        return String.format(submitNoteString, serverURL, sessionid)
+        Log.i(javaClass.name, "the submit note url is: " + String.format(submitNoteString, serverURL, sessionid, deviceid))
+
+        return String.format(submitNoteString, serverURL, sessionid, deviceid)
     }
 
     override fun initialize(): RestResult<Any> {
