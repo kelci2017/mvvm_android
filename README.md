@@ -18,6 +18,7 @@
 * The webservice call framework was encapsulated as a library called restService, which mainly use the Volley to do the http request.
 * The restService library can be shared with different projects, and there are interfaces which can be used to parse the rest result.
 
+* The FCM notification is in the branch with_FCM_notification.
 
 **Demo**
 
@@ -30,3 +31,5 @@
 ![LoginScreenshot](https://github.com/kelci2017/mvvm_android/blob/screenshots/settings2.png)
 ![LoginScreenshot](https://github.com/kelci2017/mvvm_android/blob/screenshots/settings1.png)
 ![LoginScreenshot](https://github.com/kelci2017/mvvm_android/blob/screenshots/addfamilymember.png)
+![LoginScreenshot](https://github.com/kelci2017/mvvm_android/blob/screenshots/notification3.png)
+![LoginScreenshot](https://github.com/kelci2017/mvvm_android/blob/screenshots/notification2.png)
