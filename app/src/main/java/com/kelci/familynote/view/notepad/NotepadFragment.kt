@@ -55,6 +55,14 @@ class NotepadFragment : BaseFragment() {
             familyMemberList.addAll(savedList)
         }
 
+        if (familyMemberList.count() <= 1) {
+            fromlist?.visibility = View.GONE
+            tolist?.visibility = View.GONE
+        } else {
+            fromlist?.visibility = View.VISIBLE
+            tolist?.visibility = View.VISIBLE
+        }
+
         setListAndAdapter()
         setSpinnerListener()
 
@@ -153,6 +161,10 @@ class NotepadFragment : BaseFragment() {
                     setListAndAdapter()
                     setSpinnerListener()
                     spinnerAdapter?.notifyDataSetChanged()
+                    if (familyMemberList.count() > 1) {
+                        fromlist?.visibility = View.VISIBLE
+                        tolist?.visibility = View.VISIBLE
+                    }
                 }
             }
         })
