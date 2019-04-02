@@ -28,7 +28,7 @@ class NotificationUtil {
             var builder: NotificationCompat.Builder
 
             builder = NotificationCompat.Builder(context, id)
-                    .setSmallIcon(R.drawable.ic_noteimage)
+                    .setSmallIcon(R.drawable.ic_familynote)
                     .setTicker("FamilyNoteApp alert")
                     .setAutoCancel(true)
                     .setDefaults(Notification.FLAG_SHOW_LIGHTS)
