@@ -141,7 +141,7 @@ class NotepadFragment : BaseFragment() {
                     val sameReceiver = (noteSearchModel.noteSearchReceiver.value?.toLowerCase() == receiver?.text.toString().toLowerCase() || getMainActivity()?.resources!!.getString(R.string.settings_default) == noteSearchModel.noteSearchReceiver.value)
 
                     if (isToday && sameSender && sameReceiver) {
-                        noteSearchModel.filterNote(getMainActivity()?.resources!!.getString(R.string.settings_default), getMainActivity()?.resources!!.getString(R.string.settings_default), CommonUtil.getTodayDate())
+                        noteSearchModel.filterNote(noteSearchModel.noteSearchSender.value!!, noteSearchModel.noteSearchReceiver.value!!, CommonUtil.getTodayDate())
                     }
 
                     sender?.setText("")
