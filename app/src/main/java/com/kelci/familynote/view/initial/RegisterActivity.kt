@@ -32,8 +32,12 @@ class RegisterActivity : RootActivity() {
 
             if (validEmailPassword(email_address as EditText, enter_password as EditText)) {
                 if (validPasswordFormat()) {
-                    registerModel.register(email_address.text.toString(), enter_password.text.toString())
-                    showProgressDialog("Loading...")
+                    if (FamilyNoteApplication.familyNoteApplication!!.isInternetAvailable()) {
+                        registerModel.register(email_address.text.toString(), enter_password.text.toString())
+                        showProgressDialog("Loading...")
+                    } else {
+                        showNetworkError()
+                    }
                 }
             }
         }

@@ -75,10 +75,12 @@ class NotepadFragment : BaseFragment() {
         submit?.setOnClickListener { view ->
 
             if (notebody.text == null) showAlertBox("Please input your note.", "Note is empty!")
-
-            noteSubmitModel.submitNote(sender.text.toString(), receiver.text.toString(),notebody.text.toString())
-            showProgressDialog("Loading...")
-
+            if (FamilyNoteApplication.familyNoteApplication!!.isInternetAvailable()) {
+                noteSubmitModel.submitNote(sender.text.toString(), receiver.text.toString(),notebody.text.toString())
+                showProgressDialog("Loading...")
+            } else {
+                getMainActivity()?.showNetworkError()
+            }
         }
 
         return rootView

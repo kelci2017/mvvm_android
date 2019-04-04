@@ -4,8 +4,11 @@ import android.app.Application
 import net.grandcentrix.tray.AppPreferences
 import restclient.VolleyService
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.util.Log
 import com.google.firebase.FirebaseApp
 import com.google.gson.Gson
@@ -118,5 +121,12 @@ class FamilyNoteApplication : Application() {
 
     fun getAppPackageName(): String {
         return BuildConfig.APPLICATION_ID
+    }
+
+    fun isInternetAvailable() : Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
+        val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
+        return isConnected
     }
 }

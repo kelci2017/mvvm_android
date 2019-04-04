@@ -1,5 +1,8 @@
 package com.kelci.familynote.model.restService.rest_client
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.R
 import com.kelci.familynote.model.dataStructure.TokenSessionRestResult

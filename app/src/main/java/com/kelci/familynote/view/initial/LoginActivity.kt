@@ -38,8 +38,12 @@ class LoginActivity : RootActivity() {
         login_button.setOnClickListener { view ->
 
             if (validEmailPassword(useremail as EditText, password_text as EditText)) {
-                loginModel.login(useremail.text.toString(), password_text.text.toString())
-                showProgressDialog("Loading...")
+                if (FamilyNoteApplication.familyNoteApplication!!.isInternetAvailable()) {
+                    loginModel.login(useremail.text.toString(), password_text.text.toString())
+                    showProgressDialog("Loading...")
+                } else {
+                    showNetworkError()
+                }
             }
 
         }

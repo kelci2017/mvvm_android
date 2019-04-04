@@ -47,7 +47,11 @@ class NoteboardFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        noteSearchModel.filterNote(noteSearchModel.noteSearchSender.value!!, noteSearchModel.noteSearchReceiver.value!!, noteSearchModel.noteSearchDate.value!!)
+        if (FamilyNoteApplication.familyNoteApplication!!.isInternetAvailable()) {
+            noteSearchModel.filterNote(noteSearchModel.noteSearchSender.value!!, noteSearchModel.noteSearchReceiver.value!!, noteSearchModel.noteSearchDate.value!!)
+        } else {
+            getMainActivity()?.showNetworkError()
+        }
         radiogroup.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
             // This will get the radiobutton that has changed in its check state
             onRadioButtonClicked(group.findViewById<View>(checkedId))
@@ -107,7 +111,11 @@ class NoteboardFragment : BaseFragment() {
 
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     if (global_search!!.isChecked && searchEditText?.text != null) {
-                        noteSearchModel.searchNote(searchEditText?.text.toString())
+                        if (FamilyNoteApplication.familyNoteApplication!!.isInternetAvailable()) {
+                            noteSearchModel.searchNote(searchEditText?.text.toString())
+                        } else {
+                            getMainActivity()?.showNetworkError()
+                        }
                         hideKeyboard()
                         return true
                     }

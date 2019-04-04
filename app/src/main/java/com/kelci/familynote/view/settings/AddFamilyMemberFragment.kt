@@ -41,7 +41,11 @@ class AddFamilyMemberFragment : BaseFragment() {
         }
 
         add_button?.setOnClickListener { view ->
-            add()
+            if (FamilyNoteApplication.familyNoteApplication!!.isInternetAvailable()) {
+                add()
+            } else {
+                getMainActivity()?.showNetworkError()
+            }
         }
 
         observeViewModel(addFamilyMemberModel)

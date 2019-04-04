@@ -120,6 +120,10 @@ open class RootActivity : AppCompatActivity() {
         showAlertBox(message, title)
     }
 
+    fun showNetworkError() {
+        errorHandler("Network not available.", "Network error!")
+    }
+
     fun validEmailPassword(email : EditText?, password : EditText?) : Boolean {
 
         if (email?.text.toString().isEmpty()) {

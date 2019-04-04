@@ -105,8 +105,12 @@ class SettingsFragment : BaseFragment() {
                     }
                     getString(R.string.settings_logout) -> {
                         //logout
-                        logoutModel.logout()
-                        getMainActivity()?.showProgressDialog("Logout...")
+                        if (FamilyNoteApplication.familyNoteApplication!!.isInternetAvailable()) {
+                            logoutModel.logout()
+                            getMainActivity()?.showProgressDialog("Logout...")
+                        } else {
+                            getMainActivity()?.showNetworkError()
+                        }
                     }
             else -> {
 
@@ -221,8 +225,11 @@ class SettingsFragment : BaseFragment() {
 
     private fun doFilter() {
         listAndAdapterSetup()
-        //settingsAdapter?.notifyDataSetChanged()
-        noteSearchModel.filterNote(noteSearchModel.noteSearchSender.value!!, noteSearchModel.noteSearchReceiver.value!!, noteSearchModel.noteSearchDate.value!!)
-        getMainActivity()?.showProgressDialog("Filtering...")
+        if (FamilyNoteApplication.familyNoteApplication!!.isInternetAvailable()) {
+            noteSearchModel.filterNote(noteSearchModel.noteSearchSender.value!!, noteSearchModel.noteSearchReceiver.value!!, noteSearchModel.noteSearchDate.value!!)
+            getMainActivity()?.showProgressDialog("Filtering...")
+        } else {
+            getMainActivity()?.showNetworkError()
+        }
     }
 }
