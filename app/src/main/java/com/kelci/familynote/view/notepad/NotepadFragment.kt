@@ -125,6 +125,12 @@ class NotepadFragment : BaseFragment() {
                 dismissProgressDialog()
                 if (submitResult?.resultCode == TimeoutError) {
                     getMainActivity()?.showLoginActivity(getMainActivity() as RootActivity)
+                    return
+                }
+                if (submitResult?.resultCode == 21) {
+                    FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.token), null)
+                    noteSubmitModel.submitNote(sender.text.toString(), receiver.text.toString(),notebody.text.toString())
+                    return
                 }
                 if (submitResult!!.isSuccess()) {
                     dismissProgressDialog()

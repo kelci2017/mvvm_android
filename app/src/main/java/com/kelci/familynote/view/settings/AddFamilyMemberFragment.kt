@@ -89,6 +89,11 @@ class AddFamilyMemberFragment : BaseFragment() {
                 if (addedResult?.resultCode == TimeoutError) {
                     getMainActivity()?.showLoginActivity(getMainActivity() as RootActivity)
                 }
+                if (addedResult?.resultCode == 21) {
+                    FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.token), null)
+                    add()
+                    return
+                }
                 if (addedResult!!.isSuccess()) {
                     dismissProgressDialog()
                     activity!!.supportFragmentManager.beginTransaction().remove(this@AddFamilyMemberFragment).commit()

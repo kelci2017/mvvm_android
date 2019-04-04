@@ -151,11 +151,6 @@ class SettingsFragment : BaseFragment() {
 
         viewModel.logoutResult.observe(this, object : Observer<BaseResult> {
             override fun onChanged(@Nullable baseResult: BaseResult?) {
-                if (baseResult?.resultCode == 21) {
-                    FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.token), null)
-                    logoutModel.logout()
-                    return
-                }
                 dismissProgressDialog()
                 if (baseResult!!.isSuccess() || baseResult.resultCode == TimeoutError) {
                     //save the username and password for autologin
@@ -163,6 +158,10 @@ class SettingsFragment : BaseFragment() {
                     FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.sessionid), null)
 
                     getMainActivity()?.showLoginActivity(getMainActivity() as RootActivity)
+                } else if (baseResult.resultCode == 21) {
+                    FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.token), null)
+                    logoutModel.logout()
+                    return
                 } else {
                     getMainActivity()?.errorHandler(baseResult.resultDesc.toString(), "Logout failed!")
                 }

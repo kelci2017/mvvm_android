@@ -143,14 +143,15 @@ class NoteboardFragment : BaseFragment() {
 
         viewModel.noteSearchResult.observe(this,  object : Observer<BaseResult> {
             override fun onChanged(@Nullable baseResult: BaseResult?) {
+                dismissProgressDialog()
+                if (baseResult?.resultCode == TimeoutError) {
+                    getMainActivity()?.showLoginActivity(getMainActivity() as RootActivity)
+                    return
+                }
                 if (baseResult?.resultCode == 21) {
                     FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.token), null)
                     noteSearchModel.searchNote(searchEditText?.text.toString())
                     return
-                }
-                dismissProgressDialog()
-                if (baseResult?.resultCode == TimeoutError) {
-                    getMainActivity()?.showLoginActivity(getMainActivity() as RootActivity)
                 }
                 if (!baseResult!!.isSuccess()) {
                     getMainActivity()?.errorHandler(baseResult.resultDesc.toString(), "Filter failed!")
