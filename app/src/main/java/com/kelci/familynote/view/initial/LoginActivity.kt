@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.Nullable
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -69,7 +70,12 @@ class LoginActivity : RootActivity() {
                     FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.userID), tokenSessionRestResult.getUserID())
                     FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.sessionid), tokenSessionRestResult.getSessionid())
 
-                    FamilyNoteApplication.familyNoteApplication?.getFamilyMemberList()
+                    Log.i(javaClass.name, "JWT token is: " + tokenSessionRestResult.getToken())
+                    Log.i(javaClass.name, "sessionid is: " + tokenSessionRestResult.getSessionid())
+
+                    if (FamilyNoteApplication.familyNoteApplication?.getKeyArraylist(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.member_list)) == null) {
+                        FamilyNoteApplication.familyNoteApplication?.getFamilyMemberList()
+                    }
 
                     showMainActivity(this@LoginActivity as RootActivity)
                 } else {

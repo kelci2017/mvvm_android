@@ -65,6 +65,9 @@ class MainActivity : RootActivity() {
         })
 
         FamilyNoteApplication.familyNoteApplication?.initPushNotifications()
+        if (FamilyNoteApplication.familyNoteApplication?.getKeyArraylist(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.member_list)) == null) {
+            FamilyNoteApplication.familyNoteApplication?.getFamilyMemberList()
+        }
     }
 
     override fun onBackPressed() {

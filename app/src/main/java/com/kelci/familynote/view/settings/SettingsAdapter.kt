@@ -45,9 +45,18 @@ class SettingsAdapter(context : SettingsFragment, items : ArrayList<Item>) : Bas
             calendarView = convertview.findViewById(R.id.calendarView) as CalendarView
 
             calendarView?.setOnDateChangeListener { view, year, month, dayOfMonth ->
+                var selectedDateOne = ""
                 when (month < 9) {
-                    true -> selectedDate = "" + year + "-0" + (month + 1) + "-" + dayOfMonth
-                    false -> selectedDate = "" + year + "-" + (month + 1) + "-" + dayOfMonth
+                    true ->
+                        when (dayOfMonth < 10) {
+                            true -> selectedDate = "" + year + "-0" + (month + 1) + "-0" + dayOfMonth
+                            false -> selectedDate = "" + year + "-0" + (month + 1) + "-" + dayOfMonth
+                        }
+                    false ->
+                        when (dayOfMonth < 10) {
+                            true -> selectedDate = "" + year + "-" + (month + 1) + "-0" + dayOfMonth
+                            false -> selectedDate = "" + year + "-" + (month + 1) + "-" + dayOfMonth
+                        }
                 }
 
                 context.setSelectedDate(selectedDate)

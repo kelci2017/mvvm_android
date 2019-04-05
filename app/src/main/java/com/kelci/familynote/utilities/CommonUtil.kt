@@ -15,8 +15,17 @@ class CommonUtil {
             val month = calendarF.get(Calendar.MONTH)
 
             when (month < 9) {
-                true -> date = "" + year + "-0" + (month + 1) + "-" + day
-                false -> date = "" + year + (month + 1) + "-" + day
+
+                true ->
+                    when (day < 10) {
+                        true -> date = "" + year + "-0" + (month + 1) + "-0" + day
+                        false -> date = "" + year + "-0" + (month + 1) + "-" + day
+                    }
+                false ->
+                    when (day < 10) {
+                        true -> date = "" + year + "-" + (month + 1) + "-0" + day
+                        false -> date = "" + year + "-" + (month + 1) + "-" + day
+                    }
             }
             Log.i("today", "Today's date is: " + date)
             return date
