@@ -158,9 +158,7 @@ class SettingsFragment : BaseFragment() {
                 dismissProgressDialog()
                 if (baseResult!!.isSuccess() || baseResult.resultCode == TimeoutError) {
                     //save the username and password for autologin
-                    FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.token), null)
-                    FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.sessionid), null)
-
+                    getMainActivity()?.logout()
                     getMainActivity()?.showLoginActivity(getMainActivity() as RootActivity)
                 } else if (baseResult.resultCode == 21) {
                     FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.token), null)
@@ -193,17 +191,12 @@ class SettingsFragment : BaseFragment() {
 
         viewModel.noteSearchResult.observe(getMainActivity() as FragmentActivity,  object : Observer<BaseResult> {
             override fun onChanged(@Nullable baseResult: BaseResult?) {
-                if (baseResult?.resultCode == 21) {
-                    FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.token), null)
-                    //noteSearchModel.filterNote(settingsAdapter?.getSenderName()!!, settingsAdapter?.getReveiverName()!!, settingsAdapter?.getDate()!!)
-                    return
-                }
-                dismissProgressDialog()
                 if (baseResult?.resultCode == TimeoutError) {
                     getMainActivity()?.showLoginActivity(getMainActivity() as RootActivity)
-                }
-                if (!baseResult!!.isSuccess()) {
-                    getMainActivity()?.errorHandler(baseResult.resultDesc.toString(), "Filter failed!")
+                } else if (baseResult?.resultCode == 21) {
+                    FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.token), null)
+                } else {
+                    dismissProgressDialog()
                 }
             }
         })

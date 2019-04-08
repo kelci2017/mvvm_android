@@ -22,15 +22,15 @@ import java.util.Map;
 
 public abstract class VolleyService {
 
-    public static final String REQUESTTYPE_GET = "GET";
-    public static String JWT_TOKEN = null;
-    public static final int INPUTERROR_CODE = 51;
-    public static final String INPUTERROR_DESC = "input error";
-    public static final String TOKEN_SCHEME = "Bearer ";
-    public static final int CODE_COMMON_ERROR = 61;
-    public static final String COMMON_ERROR_DESC = "unknown error";
-    public static final int NETWORK_ERROR = 50;
-    public static final String NETWORK_ERROR_DESC = "network error";
+    protected static final String REQUESTTYPE_GET = "GET";
+    protected static String JWT_TOKEN = null;
+    protected static final int INPUTERROR_CODE = 51;
+    protected static final String INPUTERROR_DESC = "input error";
+    protected static final String TOKEN_SCHEME = "Bearer ";
+    protected static final int CODE_COMMON_ERROR = 61;
+    protected static final String COMMON_ERROR_DESC = "unknown error";
+    protected static final int NETWORK_ERROR = 50;
+    protected static final String NETWORK_ERROR_DESC = "network error";
 
     private RestHandler restHandler;
     private RestTag restTag;
@@ -161,5 +161,11 @@ public abstract class VolleyService {
     }
     public static void setRequestQueue (Context context) {
         requestQueue = Volley.newRequestQueue(context);
+    }
+    public String getDefaultErrorDesc(){
+        return NETWORK_ERROR_DESC;
+    }
+    protected int getDefaultErrorCode(){
+        return NETWORK_ERROR;
     }
 }

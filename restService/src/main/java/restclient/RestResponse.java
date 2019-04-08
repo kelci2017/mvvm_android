@@ -60,7 +60,15 @@ public class RestResponse implements Response.Listener<JSONObject>, Response.Err
        } else {
            error.printStackTrace();
        }
-        volleyService.getRestHandler().onReturnResult(new RestResult());
+        if(!returnSuccessEvenHasError()) {
+            volleyService.getRestHandler().onReturnResult(new RestResult(volleyService.getDefaultErrorCode(), volleyService.getDefaultErrorDesc()));
+        }else{
+            volleyService.getRestHandler().onReturnResult(new RestResult());
+        }
+
+    }
+    protected boolean returnSuccessEvenHasError(){
+        return false;
     }
 
     private boolean isTokenExpired(VolleyError error){

@@ -17,6 +17,7 @@ import com.kelci.familynote.view.initial.MainActivity
 import java.util.regex.Pattern
 import android.widget.LinearLayout
 import com.kelci.familynote.FamilyNoteApplication
+import com.kelci.familynote.R
 import com.kelci.familynote.view.initial.LoginActivity
 import com.kelci.familynote.view.initial.RegisterActivity
 import com.kelci.familynote.view.settings.AddFamilyMemberFragment
@@ -149,6 +150,11 @@ open class RootActivity : AppCompatActivity() {
     fun showLoginActivity(activity : RootActivity) {
         val intent = Intent(activity, LoginActivity::class.java)
         startActivity(intent)
+    }
+
+    fun logout() {
+        FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.token), null)
+        FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.sessionid), null)
     }
 
     override fun onBackPressed() {

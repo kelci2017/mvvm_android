@@ -1,8 +1,10 @@
 package com.kelci.familynote.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
+import com.kelci.familynote.model.dataStructure.BaseResult
 import com.kelci.familynote.model.dataStructure.TokenSessionRestResult
 import com.kelci.familynote.model.restService.rest_client.ServiceUtil
+import com.kelci.familynote.utilities.CommonCodes
 import com.kelci.familynote.viewmodel.base.BaseViewModel
 import restclient.RestHandler
 import restclient.RestParms
@@ -33,6 +35,9 @@ class RegisterViewModel : BaseViewModel() {
                     //val user = User(tokenSessionRestResult.getSessionid(), tokenSessionRestResult.getToken(), tokenSessionRestResult.getUserID())
                     userData.value = tokenSessionRestResult
                     return
+                }  else {
+                    val faliedTokenSessionRestResult = TokenSessionRestResult(CommonCodes.NETWORK_ERROR,"","","","")
+                    userData.value = faliedTokenSessionRestResult
                 }
             }
         }, false)

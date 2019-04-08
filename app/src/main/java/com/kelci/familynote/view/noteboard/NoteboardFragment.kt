@@ -153,29 +153,26 @@ class NoteboardFragment : BaseFragment() {
             override fun onChanged(@Nullable baseResult: BaseResult?) {
                 dismissProgressDialog()
                 if (baseResult?.resultCode == TimeoutError) {
+                    getMainActivity()?.logout()
                     getMainActivity()?.showLoginActivity(getMainActivity() as RootActivity)
-                    return
-                }
-                if (baseResult?.resultCode == 21) {
+                } else if (baseResult?.resultCode == 21) {
                     FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.token), null)
                     noteSearchModel.searchNote(searchEditText?.text.toString())
-                    return
-                }
-                if (!baseResult!!.isSuccess()) {
+                } else if (baseResult!!.isSuccess()){
+                    val gson = Gson()
+
+                    val type = object : TypeToken<ArrayList<Note>>() {
+
+                    }.type
+                    val jsonText = gson.toJson(baseResult.resultDesc)
+                    noteList = gson.fromJson(jsonText, type)
+
+                    noteAdapter = NoteAdapter(activity!!.applicationContext, noteList)
+                    notelist.adapter = noteAdapter
+                    noteAdapter?.notifyDataSetChanged()
+                } else {
                     getMainActivity()?.errorHandler(baseResult.resultDesc.toString(), "Filter failed!")
-                    return
                 }
-                val gson = Gson()
-
-                val type = object : TypeToken<ArrayList<Note>>() {
-
-                }.type
-                val jsonText = gson.toJson(baseResult.resultDesc)
-                noteList = gson.fromJson(jsonText, type)
-
-                noteAdapter = NoteAdapter(activity!!.applicationContext, noteList)
-                notelist.adapter = noteAdapter
-                noteAdapter?.notifyDataSetChanged()
             }
         })
     }

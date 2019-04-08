@@ -4,6 +4,8 @@ import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.R
 import com.kelci.familynote.model.dataStructure.TokenSessionRestResult
 import com.kelci.familynote.model.dataStructure.UserPostBody
+import com.kelci.familynote.utilities.CommonCodes
+import com.kelci.familynote.utilities.ServerResponseChecker
 import org.json.JSONObject
 import restclient.RestResult
 import restclient.VolleyService
@@ -13,6 +15,10 @@ class RestRegister : VolleyService(){
     var password : String = ""
 
     override fun parseResult(result: JSONObject?): RestResult<TokenSessionRestResult> {
+        val errorCode = ServerResponseChecker.onCheck(result.toString())
+        if (errorCode != CommonCodes.NO_ERROR) {
+            return RestResult(CommonCodes.NETWORK_ERROR, errorCode)
+        }
         val tokenSessionRestResult = fromJson<TokenSessionRestResult>(result.toString(), TokenSessionRestResult::class.java)
         return RestResult(tokenSessionRestResult)
     }

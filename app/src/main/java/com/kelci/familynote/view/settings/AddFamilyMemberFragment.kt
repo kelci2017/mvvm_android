@@ -91,14 +91,12 @@ class AddFamilyMemberFragment : BaseFragment() {
             override fun onChanged(@Nullable addedResult: BaseResult?) {
                 dismissProgressDialog()
                 if (addedResult?.resultCode == TimeoutError) {
+                    getMainActivity()?.logout()
                     getMainActivity()?.showLoginActivity(getMainActivity() as RootActivity)
-                }
-                if (addedResult?.resultCode == 21) {
+                } else if (addedResult?.resultCode == 21) {
                     FamilyNoteApplication.familyNoteApplication?.putKeyValue(resources.getString(R.string.token), null)
                     add()
-                    return
-                }
-                if (addedResult!!.isSuccess()) {
+                } else if (addedResult!!.isSuccess()) {
                     dismissProgressDialog()
                     activity!!.supportFragmentManager.beginTransaction().remove(this@AddFamilyMemberFragment).commit()
                     getMainActivity()?.onBackPressed()

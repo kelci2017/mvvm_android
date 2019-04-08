@@ -5,6 +5,7 @@ import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.R
 import com.kelci.familynote.model.dataStructure.BaseResult
 import com.kelci.familynote.model.restService.rest_client.ServiceUtil
+import com.kelci.familynote.utilities.CommonCodes
 import com.kelci.familynote.viewmodel.base.BaseViewModel
 import restclient.RestHandler
 import restclient.RestResult
@@ -44,6 +45,9 @@ class LogoutViewModel : BaseViewModel() {
 
                 if (baseResult != null) {
                     logoutResult.value = baseResult
+                } else {
+                    val errorBaseResult = BaseResult(CommonCodes.NETWORK_ERROR, CommonCodes.NETWORK_ERROR_DESC)
+                    logoutResult.value = errorBaseResult
                 }
             }
         }, false)

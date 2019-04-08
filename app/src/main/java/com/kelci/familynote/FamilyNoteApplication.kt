@@ -100,6 +100,8 @@ class FamilyNoteApplication : Application() {
                     if (familyMemberList != null) {
                         putKeyArralylist(resources.getString(R.string.member_list), familyMemberList)
                     }
+                } else {
+                    Log.e("getFamilyMemberList", baseResult?.resultDesc.toString())
                 }
             }
         }, false)

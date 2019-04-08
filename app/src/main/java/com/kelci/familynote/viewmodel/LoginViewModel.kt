@@ -5,6 +5,7 @@ import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.R
 import com.kelci.familynote.model.dataStructure.TokenSessionRestResult
 import com.kelci.familynote.model.restService.rest_client.ServiceUtil
+import com.kelci.familynote.utilities.CommonCodes
 import com.kelci.familynote.viewmodel.base.BaseViewModel
 import restclient.RestHandler
 import restclient.RestParms
@@ -34,6 +35,9 @@ class LoginViewModel : BaseViewModel() {
                     if (tokenSessionRestResult != null) {
                         //val user = User(tokenSessionRestResult.getSessionid(), tokenSessionRestResult.getToken(), tokenSessionRestResult.getUserID())
                         userData.value = tokenSessionRestResult
+                    } else {
+                        val faliedTokenSessionRestResult = TokenSessionRestResult(CommonCodes.NETWORK_ERROR,"","","","")
+                        userData.value = faliedTokenSessionRestResult
                     }
             }
         }, false)

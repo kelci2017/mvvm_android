@@ -4,6 +4,8 @@ import com.kelci.familynote.FamilyNoteApplication
 import com.kelci.familynote.R
 import com.kelci.familynote.utilities.CommonUtil
 import com.kelci.familynote.model.dataStructure.BaseResult
+import com.kelci.familynote.utilities.CommonCodes
+import com.kelci.familynote.utilities.ServerResponseChecker
 import org.json.JSONObject
 import restclient.RestResult
 import restclient.VolleyService
@@ -14,6 +16,10 @@ class RestFilterNote : VolleyService() {
     var receiver : String = "All"
 
     override fun parseResult(result: JSONObject?): RestResult<BaseResult> {
+        val errorCode = ServerResponseChecker.onCheck(result.toString())
+        if (errorCode != CommonCodes.NO_ERROR) {
+            return RestResult(CommonCodes.NETWORK_ERROR, errorCode)
+        }
         val baseResult = fromJson<BaseResult>(result.toString(), BaseResult::class.java)
         return RestResult(baseResult)
     }

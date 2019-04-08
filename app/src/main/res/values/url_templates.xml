@@ -2,7 +2,8 @@
 <resources>
 
     <!-- init server url, multiple choice based on situation. -->
-    <string name = "server_url">http://192.168.1.177:4000/</string>
+    <!--<string name = "server_url">http://192.168.1.177:4000/</string>-->
+    <string name = "server_url">http://jacob.jandjzone.com:9110/</string>
 
     <string name="login">%1$sauth/sign_in</string>
     <string name="logout">%1$sauth/sign_out?sessionid=%2$s</string>

@@ -65,6 +65,9 @@ class MainActivity : RootActivity() {
         })
 
         FamilyNoteApplication.familyNoteApplication?.initPushNotifications()
+        if (FamilyNoteApplication.familyNoteApplication?.getKeyArraylist(FamilyNoteApplication.familyNoteApplication?.resources!!.getString(R.string.member_list)) == null) {
+            FamilyNoteApplication.familyNoteApplication?.getFamilyMemberList()
+        }
     }
 
     override fun onBackPressed() {
@@ -75,26 +78,5 @@ class MainActivity : RootActivity() {
                 fragment.onResume()
             }
         }
-    }
-
-    private fun getFamilyMemberList() {
-        var restHandler : RestHandler<BaseResult>? = null
-
-        restHandler as RestHandler<Any>?
-
-
-       ServiceUtil.getFamilyMemberList(null,null,object : RestHandler<Any>(){
-            override fun onReturn(result: RestResult<Any>?) {
-
-                val baseResult : BaseResult? = result?.resultObject as? BaseResult
-
-                if (baseResult != null) {
-                    val familyMemberList : ArrayList<String>? = baseResult.resultDesc as ArrayList<String>
-                    if (familyMemberList != null) {
-                        FamilyNoteApplication.familyNoteApplication?.putKeyArralylist(resources.getString(R.string.member_list), familyMemberList)
-                    }
-                }
-            }
-        }, false)
     }
     }
