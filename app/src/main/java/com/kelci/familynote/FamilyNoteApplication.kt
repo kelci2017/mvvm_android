@@ -41,7 +41,7 @@ class FamilyNoteApplication : Application() {
         familyNoteApplication = this
         appPreferences = AppPreferences(applicationContext)
         VolleyService.setRequestQueue(applicationContext)
-        if (getKeyValue(resources.getString(R.string.sessionid)) != null && getKeyValue(resources.getString(R.string.token)) != null) {
+        if (getKeyArraylist(familyNoteApplication?.resources!!.getString(R.string.member_list)) == null && getKeyValue(resources.getString(R.string.sessionid)) != null && getKeyValue(resources.getString(R.string.token)) != null) {
             getFamilyMemberList()
         }
         FirebaseApp.initializeApp(this)
